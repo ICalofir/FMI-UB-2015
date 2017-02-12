@@ -1,0 +1,71 @@
+import binaryTree.*;
+import java.io.*;
+import java.util.*;
+
+class Parent implements Comparable<Parent> {
+	public String nume;
+	public int varsta;
+	
+	public Parent(String nume) {
+		this.nume = nume;
+	}
+	
+	public int compareTo(Parent obj) {
+		return nume.compareTo(obj.nume);
+	}
+}
+
+class Child extends Parent {
+	public int varsta;
+	
+	public Child(int varsta) {
+		super("");
+		this.varsta = varsta;
+	}
+	
+	public Child(int varsta, String nume) {
+		super(nume);
+		this.varsta = varsta;
+		this.nume = nume;
+	}
+	
+	public int compareTo(Parent obj) {
+		return obj.varsta - this.varsta;
+//		return varsta - obj.varsta;
+	}
+}
+
+public class p4 {
+	public static void main(String[] args) throws Exception {
+		binaryTree<Integer, Integer> bt = new binaryTree<Integer, Integer>();
+		
+		File fin = new File("date.in");
+		Scanner sc = null;
+		
+		try {
+			sc = new Scanner(fin);
+			
+			while (sc.hasNextInt()) {
+				int nr = sc.nextInt();
+				bt.insert(nr, nr);
+			}
+			
+		} catch (Exception ex) {
+			throw ex;
+		} finally {
+			if (sc != null) {
+				sc.close();
+			}
+		}
+		
+		System.out.println(bt);
+		
+		ArrayList<Child> l = new ArrayList<Child>();
+		l.add(new Child(2, "bbbb"));
+		l.add(new Child(40, "aaaa"));
+		Collections.sort(l);
+		for (Child it : l) {
+			System.out.println(it.nume + it.varsta);
+		}
+	}
+}

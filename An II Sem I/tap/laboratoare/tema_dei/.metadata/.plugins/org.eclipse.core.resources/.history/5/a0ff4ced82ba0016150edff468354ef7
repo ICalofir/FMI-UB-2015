@@ -1,0 +1,52 @@
+import java.io.*;
+import java.util.*;
+
+public class p3 {
+	private static int n;
+	private static class pair {
+		int x, w;
+	}
+	
+	private static ArrayList<pair> v = new ArrayList<pair>();
+	
+	private static void WeightedMedian() {
+		
+	}
+	
+	private static void read() throws Exception {
+		File fin = new File("date.in");
+		Scanner sc = null;
+		
+		try {
+			sc = new Scanner(fin);
+			n = sc.nextInt();
+			
+			for (int i = 1; i <= n; ++i) {
+				x = sc.nextInt();
+				pair aux = new pair();
+			}
+			
+			for (int i)
+			
+		} catch (Exception ex) {
+			throw ex;
+		} finally {
+			if (sc != null) {
+				sc.close();
+			}
+		}
+	}
+	
+	private static void solve() throws Exception {
+		Writer wr = new FileWriter("date.out");
+		
+		
+		
+		wr.close();
+	}
+	
+	public static void main(String[] args) throws Exception {
+		read();
+		solve();
+	}
+}

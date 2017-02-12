@@ -1,0 +1,26 @@
+import java.util.Iterator;
+
+interface RandMethodBase extends Iterable<Integer> {
+	
+}
+
+class RandMethodA implements RandMethodBase {
+	public Iterator<Integer> iterator() {
+		return new MyIterator();
+	}
+	
+	private class MyIterator implements Iterator<Integer> {
+		public boolean hasNext() {
+			return true;
+		}
+		public Integer next() {
+			
+		}
+	}
+}
+
+public class tema1 {
+	public static void main(String[] args) {
+		System.out.println("dad");
+	}
+}

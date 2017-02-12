@@ -1,0 +1,67 @@
+html, body {
+  height: 100%;
+}
+
+.header {
+  background-color: cyan;
+  overflow: hidden;
+  border: 1px solid black;
+}
+
+.header_text {
+  float: left;
+  padding: 10px;
+}
+
+.header_image {
+  float: right;
+}
+
+.body {
+  position: relative;
+  width: 98%;
+  left: 1%;
+  border: 1px solid black;
+}
+
+.footer {
+  background-color: cyan;
+  text-align: center;
+  border: 1px solid black;
+}
+
+p:not(.footer_text) {
+  color: black;
+}
+
+.tag:nth-child(odd) {
+  background-color: cyan;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.definitie {
+  display: inline-block;
+  width: 120px;
+  margin-right: 100px;
+}
+
+.descriere {
+  display: inline-block;
+  vertical-align: top;
+}
+
+@media only screen and (max-width: 1750px) {
+  .img_descriere {
+    width: 450px;
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  .descriere {
+    width: 100%;
+  }
+}

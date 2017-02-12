@@ -1,0 +1,82 @@
+.i1d1 {
+  transition: width 2s, height 2s, transform 2s, filter 2s;
+}
+
+.i1d1:hover {
+  width: 300px;
+  height: 300px;
+  transform: rotate(180deg);
+  filter: grayscale(100%);
+}
+
+.i1d2 {
+  position: relative;
+  animation-name: linear;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes linear {
+  0% {
+    left: 0px;
+    top: 0px;
+  }
+  50% {
+    left: 752px;
+    top: 0px;
+  }
+  100% {
+    left: 0px;
+    top: 0px;
+  }
+}
+
+.i2d2 {
+  position: relative;
+  animation: circular;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes circular {
+    from {
+      transform: rotate(0deg) translateX(100px) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateX(100px) rotate(-360deg);
+    }
+}
+
+.i1d3 {
+  position: absolute;
+  transform: rotate(-20deg);
+}
+
+.i2d3 {
+  position: absolute;
+  left: 100px;
+}
+
+.i3d3 {
+  position: absolute;
+  left: 200px;
+  transform: rotate(20deg);
+}
+
+.i1d3:hover {
+  width: 300px;
+  height: 300px;
+  z-index: 1;
+}
+
+.i2d3:hover {
+  width: 300px;
+  height: 300px;
+  z-index: 1;
+}
+
+.i3d3:hover {
+  width: 300px;
+  height: 300px;
+  z-index: 1;
+}

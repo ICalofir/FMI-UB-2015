@@ -1,0 +1,42 @@
+1. Masini Turing deterministe si nedeterministe.
+Nota 6:
+- definitii pentru toate tipurile de masini Turing (deterministe, nedeterministe, cu mai multe benzi)
+- limbaj acceptat si functie Turing calculabila
+- relatiile intre ele tipurile de masini Turing (enunturi)
+Fiecare demonstratie, la alegere: 2p
+
+
+2. Functii recursive, calculabile cu programe standard, Turing calculabile.
+Nota 6:
+- definitiile celor 3 tipuri de functii
+- relatiile intre ele (enunturi)
+Fiecare demonstratie, la alegere: 2p
+
+
+3. Multimi recursive, recursiv enumerabile, nerecursiv enumerabile.
+Nota 6:
+- definitiile celor 3 tipuri de multimi
+- relatiile intre ele (enunturi si exemple de limbaje, fara demonstratii)
+Fiecare demonstratie, la alegere: 2p
+
+
+4. Clasa de complexitate timp.
+Nota 6:
+- modelul de masina Turing pe care se face evaluarea masurii timp
+- definitia masurii timp
+- definirea claselor de complexitate timp
+- comprimarea benzilor (enunturi)
+- eliminarea constantelor (enunturi)
+- ierarhii de complexitate (enunturi
+Fiecare demonstratie, la alegere: 2p
+
+
+5. Clasa de complexitate spatiu.
+Nota 6:
+- modelul de masina Turing pe care se face evaluarea masurii spatiu
+- definitia masurii spatiu
+- definirea claselor de complexitate spatiu
+- comprimarea benzilor (enunturi)
+- eliminarea constantelor (enunturi)
+- ierarhii de complexitate (enunturi
+Fiecare demonstratie, la alegere: 2p

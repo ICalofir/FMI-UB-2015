@@ -1,0 +1,39 @@
+import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Random;
+
+interface RandMethodBase extends Iterable<Integer> {
+	
+}
+
+class RandMethodA implements RandMethodBase {
+	private int N_;
+	private ArrayList<Integer> V = new ArrayList<Integer>();
+	
+	RandMethodA(int N_) {
+		this.N_ = N_;
+	}
+	
+	public Iterator<Integer> iterator() {
+		return new MyIterator();
+	}
+	
+	private class MyIterator implements Iterator<Integer> {
+		public boolean hasNext() {
+			if (V.size() == N_)
+				return false;
+			return true;
+		}
+		public Integer next() {
+			while (true) {
+				int x_= Random.nextInt() % N_;
+			}
+		}
+	}
+}
+
+public class tema1 {
+	public static void main(String[] args) {
+		System.out.println("dad");
+	}
+}

@@ -1,0 +1,9 @@
+import java.util.Iterator;
+
+interface RandMethodBase extends Iterable {
+	
+}
+
+public class tema1 {
+
+}

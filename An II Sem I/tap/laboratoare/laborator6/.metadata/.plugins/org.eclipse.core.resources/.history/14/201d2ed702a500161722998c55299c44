@@ -1,0 +1,57 @@
+import java.util.*;
+
+class Node implements Comparable<Node> {
+	int val;
+	String c;
+	Node left, right;
+	
+	Node (int val, String c) {
+		this.val = val;
+		this.c = c;
+		left = null;
+		right = null;
+	}
+	
+	public int compareTo(Node obj) {
+		return val - obj.val;
+	}
+}
+
+public class huffman {
+	public static void main(String[] args) {
+		Scanner keyboard = new Scanner(System.in);
+		String str = keyboard.nextLine();
+		keyboard.close();
+		
+		HashMap<String, Integer> hm = new HashMap<String, Integer>();
+		for (int i = 0; i < str.length(); ++i) {
+			if (hm.get(String.valueOf(str.charAt(i))) == null) {
+				hm.put(String.valueOf(str.charAt(i)), 1);
+			} else {
+				hm.put(String.valueOf(str.charAt(i)), hm.get(str.charAt(i) + 1));
+			}
+		}
+		
+		PriorityQueue<Node> pq = new PriorityQueue<Node>();
+		Set<Map.Entry<String, Integer>> s = hm.entrySet();
+		Iterator<Map.Entry<String, Integer>> it = s.iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, Integer> now = it.next();
+			Node node = new Node(now.getValue(), now.getKey());
+			pq.add(node);
+		}
+		
+		while (pq.size() > 1) {
+			Node node1 = pq.poll();
+			Node node2 = pq.poll();
+//			Node node = new Node(node1.val + node2.val, "");
+//			node.left = node1;
+//			node.right = node2;
+			pq.add(node);
+			System.out.println(node.val);
+		}
+		
+//		Node root = new Node(pq.peek().val, "");
+//		System.out.println(root.val);
+	}
+}

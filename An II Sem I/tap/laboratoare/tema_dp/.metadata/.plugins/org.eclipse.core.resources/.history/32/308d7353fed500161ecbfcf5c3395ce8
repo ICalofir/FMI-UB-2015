@@ -1,0 +1,115 @@
+import java.util.*;
+import java.io.*;
+
+public class p4 {
+	private static String A, B;
+	private static int space, other;
+	private static int[][] dp;
+	private static pair[][] pre;
+	private static HashMap<String, Integer> h = new HashMap<String, Integer>();
+	
+	private static class pair {
+		int i, j;
+		
+		pair() {
+			i = 0;
+			j = 0;
+		}
+	}
+	
+	private static void read() throws Exception {
+		File fin = new File("date.in");
+		Scanner sc = null;
+		
+		sc = new Scanner(fin);
+		
+		A = sc.nextLine();
+		B = sc.nextLine();
+		
+		space = sc.nextInt();
+		other = sc.nextInt();
+		sc.nextLine();
+		
+		while (sc.hasNextLine()) {
+			String str = sc.nextLine();
+			int nr = sc.nextInt();
+			if (sc.hasNextLine()) {
+				sc.nextLine();
+			}
+			h.put(str, nr);
+		}
+		
+		dp = new int[2][B.length() + 1];
+		pre = new pair[A.length() + 1][B.length() + 1];
+		for (int i = 0; i <= A.length(); ++i) {
+			for (int j = 0; j <= B.length(); ++j) {
+				pre[i][j] = new pair();
+			}
+		}
+		
+		if (sc != null) {
+			sc.close();
+		}
+	}
+	
+	private static void solve() {
+		System.out.print("0 ");
+		for (int j = 1; j <= B.length(); ++j) {
+			dp[0][j] = j * space;
+			pre[0][j].i = 0;
+			pre[0][j].j = j - 1;
+			System.out.print(dp[0][j] + " ");
+		}
+		System.out.println();
+		
+		for (int i = 1, l = 1; i <= A.length(); ++i, l = 1 - l) {
+			dp[l][0] = i * space;
+			System.out.print(dp[l][0] + " ");
+			for (int j = 1; j <= B.length(); ++j) {
+				int p = other;
+				if (h.get(A.charAt(i - 1) + "" + B.charAt(j - 1)) != null) {
+					p = h.get(A.charAt(i - 1) + "" + B.charAt(j - 1));
+				}
+				if (h.get(B.charAt(j - 1) + "" + A.charAt(i - 1)) != null) {
+					p = h.get(B.charAt(j - 1) + "" + A.charAt(i - 1));
+				}
+				
+				int minim = p + dp[1 - l][j - 1];
+				pre[i][j].i = i - 1;
+				pre[i][j].j = j - 1;
+				
+				if (space + dp[1 - l][j] < minim) {
+					minim = space + dp[1 - l][j];
+					pre[i][j].i = i - 1;
+					pre[i][j].j = j;
+				}
+				
+				if (space + dp[l][j - 1] < minim) {
+					minim = space + dp[l][j - 1];
+					pre[i][j].i = i;
+					pre[i][j].j = j - 1;
+				}
+				
+				dp[l][j] = minim;
+				
+				System.out.print(minim + " ");
+			}
+			System.out.println();
+		}
+	}
+	
+	private static void write() throws Exception {
+		Writer wr = new FileWriter("date.out");
+		
+		wr.write(dp[0][B.length()] + "\n");
+		wr.write("ce plm");
+		
+		wr.close();
+	}
+	
+	public static void main(String[] args) throws Exception {
+		read();
+		solve();
+		write();
+	}
+}

@@ -1,0 +1,76 @@
+package binaryTree;
+
+public class binaryTree<Key extends Comparable<Key>, Value> {
+	private class Node {
+		private Key key;
+		private Value val;
+		private Node left, right;
+		
+		public Node(Key _key, Value _val) {
+			key = _key;
+			val = _val;
+			left = null;
+			right = null;
+		}
+	}
+	
+	private Node root;
+	
+	public binaryTree() {
+		root = null;
+	}
+	
+	private boolean _insert(Node nod, Node aux) {
+		int cmp = aux.key.compareTo(nod.key);
+		
+		if (cmp == 0) {
+			return false;
+		}
+		else if (cmp == 1) {
+			if (nod.right != null) {
+				_insert(nod.right, aux);
+			}
+			
+			nod.right = aux;
+			return true;
+		} else {
+			if (nod.left != null) {
+				_insert(nod.left, aux);
+			}
+			
+			nod.left = aux;
+			return true;
+		}
+	}
+	
+	public boolean insert(Key key, Value val) {
+		Node aux = new Node(key, val);
+		if (root == null) {
+			root = aux;
+			return true;
+		}
+		
+		return _insert(root, aux);
+	}
+	
+	private Value _get(Node nod, Key key) {
+		if (nod == null) {
+			return null;
+		}
+		
+		int cmp = key.compareTo(nod.key);
+		
+		if (cmp == 0) {
+			return nod.val;
+		}
+		else if (cmp == 1) {
+			return _get(nod.right, key);
+		} else {
+			return _get(nod.left, key);
+		}
+	}
+	
+	public Value get(Key key) {
+		return _get(root, key);
+	}
+}

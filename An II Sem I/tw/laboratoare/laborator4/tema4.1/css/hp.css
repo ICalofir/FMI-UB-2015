@@ -1,0 +1,18 @@
+img.c1 {
+  position: static;
+}
+
+img.c2 {
+  position: absolute;
+  left: 200px;
+  z-index: -1;
+}
+
+img.c3 {
+  position: relative;
+  left: 200px;
+}
+
+img.c4 {
+  position: fixed;
+}

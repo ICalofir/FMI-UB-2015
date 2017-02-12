@@ -1,0 +1,50 @@
+import java.io.*;
+import java.util.*;
+
+public class p2 {
+	static private int nr, n;
+	static private int x, y;
+	
+	private static void read() throws Exception {
+		File fin = new File("date.in");
+		Scanner sc = null;
+		
+		try {
+			sc = new Scanner(fin);
+			n = sc.nextInt();
+			x = sc.nextInt();
+			y = sc.nextInt();
+			
+		} catch (Exception ex) {
+			throw ex;
+		} finally {
+			if (sc != null) {
+				sc.close();
+			}
+		}
+	}
+	
+	static private int[][] v;
+	
+	static private void dei(int xu, int xd, int yl, int yr, int m, int gx, int gy) {
+		int mx = xd / 2;
+		int my = yr / 2;
+	}
+	
+	private static void solve() throws Exception {
+		Writer wr = new FileWriter("date.out", true);
+	
+		nr = 1;
+		for (int i = 1; i <= n; ++i) {
+			nr = nr * 2;
+		}
+		v = new int[nr + 1][nr + 1];
+		
+		wr.close();
+	}
+	
+	public static void main(String[] args) throws Exception {
+		read();
+		solve();
+	}
+}

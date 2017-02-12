@@ -1,0 +1,42 @@
+import binaryTree.*;
+import java.util.*;
+
+public class p5 {
+	public static void main(String[] args) {
+		binaryTree<Integer, Integer> bt1 = new binaryTree<Integer, Integer>();
+		binaryTree<Integer, Integer> bt2 = new binaryTree<Integer, Integer>();
+		bt1.insert(5, 5);
+		bt1.insert(3, 3);
+		bt1.insert(1, 1);
+		bt1.insert(7, 7);
+		bt1.insert(6, 6);
+		bt1.insert(8, 8);
+		bt2.insert(5, 5);
+		bt2.insert(3, 3);
+//		bt2.insert(4, 4);
+		bt2.insert(1, 1);
+		bt2.insert(7, 7);
+		bt2.insert(6, 6);
+		bt2.insert(8, 8);
+		boolean eq = bt1.equals(bt2);
+		System.out.println(eq);
+		
+		binaryTree<Integer, Integer> bt3 = new binaryTree<Integer, Integer>();
+		binaryTree<Integer, Integer> bt4 = new binaryTree<Integer, Integer>();
+		bt3.insert(5, 5);
+		bt3.insert(3, 3);
+		bt3.insert(1, 1);
+		bt3.insert(7, 7);
+		bt3.insert(6, 6);
+		bt3.insert(8, 8);
+		bt4.insert(5, 5);
+		bt4.insert(3, 3);
+//		bt4.insert(4, 4);
+		bt4.insert(1, 1);
+		bt4.insert(7, 7);
+		bt4.insert(6, 6);
+		bt4.insert(8, 8);
+		boolean eq = bt3.equals(bt4);
+		System.out.println(eq);
+	}
+}

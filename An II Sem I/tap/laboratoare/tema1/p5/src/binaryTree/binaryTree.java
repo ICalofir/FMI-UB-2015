@@ -1,0 +1,143 @@
+package binaryTree;
+
+public class binaryTree<Key extends Comparable<Key>, Value extends Comparable<Value>> {
+	private class Node {
+		Key key;
+		Value val;
+		Node left, right;
+		
+		Node(Key _key, Value _val) {
+			key = _key;
+			val = _val;
+			left = null;
+			right = null;
+		}
+	}
+	
+	private Node root;
+	private String str;
+	private boolean isEqual;
+	private int code, nr;
+	
+	public binaryTree() {
+		root = null;
+	}
+	
+	private boolean _insert(Node nod, Node aux) {
+		int cmp = aux.key.compareTo(nod.key);
+		
+		if (cmp == 0) {
+			return false;
+		}
+		else if (cmp >= 1) {
+			if (nod.right == null) {
+				nod.right = aux;
+				return true;
+			}
+			
+			return _insert(nod.right, aux);
+		} else {
+			if (nod.left == null) {
+				nod.left = aux;
+				return true;
+			}
+			
+			return _insert(nod.left, aux);
+		}
+	}
+	
+	public boolean insert(Key key, Value val) {
+		Node aux = new Node(key, val);
+		if (root == null) {
+			root = aux;
+			return true;
+		}
+		
+		return _insert(root, aux);
+	}
+	
+	private Value _get(Node nod, Key key) {
+		if (nod == null) {
+			return null;
+		}
+		
+		int cmp = key.compareTo(nod.key);
+		
+		if (cmp == 0) {
+			return nod.val;
+		}
+		else if (cmp == 1) {
+			return _get(nod.right, key);
+		} else {
+			return _get(nod.left, key);
+		}
+	}
+	
+	public Value get(Key key) {
+		return _get(root, key);
+	}
+	
+	private void _toString(Node nod) {
+		if (nod.left != null) {
+			_toString(nod.left);
+		}
+		
+		str += nod.val + " ";
+		
+		if (nod.right != null) {
+			_toString(nod.right);
+		}
+	}
+	
+	public String toString() {
+		str = "";
+		_toString(root);
+		return str;
+	}
+	
+	public void _equals(Node nod1, Node nod2) {
+		if (nod1.val.compareTo(nod2.val) != 0) {
+			isEqual = false;
+			return;
+		}
+		
+		if (nod1.left != null && nod2.left != null) {
+			_equals(nod1.left, nod2.left);
+		} else if ((nod1.left != null && nod2.left == null) || (nod1.left == null && nod2.left != null)) {
+			isEqual = false;
+			return;
+		}
+		
+		if (nod1.right != null && nod2.right != null) {
+			_equals(nod1.right, nod2.right);
+		} else if ((nod1.right != null && nod2.right == null) || (nod1.right == null && nod2.right != null)) {
+			isEqual = false;
+			return;
+		}
+	}
+	
+	public boolean equals(binaryTree<Key, Value> obj) {
+		isEqual = true;
+		_equals(root, obj.root);
+		return isEqual;
+	}
+	
+	public void _hashCode(Node nod) {
+		code = code + nod.key.hashCode() * nr;
+		if (nod.left != null) {
+			++nr;
+			_hashCode(nod.left);
+		}
+		if (nod.right != null) {
+			++nr;
+			_hashCode(nod.right);
+		}
+	}
+	
+	public int hashCode() {
+		code = 0;
+		nr = 1;
+		_hashCode(root);
+		return code;
+	}
+}

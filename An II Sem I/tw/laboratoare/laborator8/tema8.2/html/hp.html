@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ro">
+ <head>
+   <title>Home page</title>
+   <meta charset="utf-8">
+   <script type="text/javascript" src="../js/hp.js"></script>
+ </head>
+
+ <!-- <body onload="init()"> -->
+ <body>
+  <form autocomplete="off" id="myform">
+    Rezultatul calcului 1 + 1 este:<br>
+    <input type="radio" name="intrebare1" value="2" id="int11" checked>2<br>
+    <input type="radio" name="intrebare1" value="3" id="int12">3<br>
+    <input type="radio" name="intrebare1" value="4" id="int13">4<br>
+    <input type="radio" name="intrebare1" value="1" id="int14">1<br>
+
+    Rezultatul calcului 2 * 2 este:<br>
+    <input type="radio" name="intrebare2" value="2" id="int21" checked>2<br>
+    <input type="radio" name="intrebare2" value="3" id="int22">3<br>
+    <input type="radio" name="intrebare2" value="4" id="int23">4<br>
+    <input type="radio" name="intrebare2" value="1" id="int24">1<br>
+
+    Rezultatul calcului 5 + 5 este:<br>
+    <input type="radio" name="intrebare3" value="2" id="int31" checked>2<br>
+    <input type="radio" name="intrebare3" value="3" id="int32">3<br>
+    <input type="radio" name="intrebare3" value="4" id="int33">4<br>
+    <input type="radio" name="intrebare3" value="10" id="int34">10<br>
+    <button type="button" onclick="myFunction()">Submit</button>
+    <!-- <input type="submit" value="Submit" onclick="myFunction()"> -->
+    <input type="reset" value="Reset" onclick="myReset()">
+  </form>
+  <br>Punctajul dumneavoastra este:<br>
+  <input type="text" name="rezultat" id="rezultat">
+</html>

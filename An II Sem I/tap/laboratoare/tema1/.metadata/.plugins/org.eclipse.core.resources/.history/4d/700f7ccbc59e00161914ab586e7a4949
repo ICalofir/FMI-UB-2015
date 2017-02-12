@@ -1,0 +1,95 @@
+package myQueue;
+
+import java.util.*;
+
+class FullStackException extends RuntimeException
+{
+    public FullStackException(String s)
+    {
+        super(s);
+    }
+}
+
+class EmptyStackException extends RuntimeException
+{
+    public EmptyStackException(String s)
+    {
+        super(s);        
+    }
+}
+
+class MyStack<E> implements Iterable<E>
+{
+    private final int capacity = 2;
+    E[] elems;
+    int top;
+    
+    public Iterator<E> iterator()
+    {
+        return new MyStackIterator();
+    }
+    
+    private class MyStackIterator implements Iterator<E>
+    {
+        private int current = 0;
+        public boolean hasNext() { return current < capacity; }
+        public void remove() { /* nothing: should throw exception */}
+        public E next()
+        {
+            return elems[current++];
+        }
+    }
+    
+    MyStack()
+    {
+        elems = (E[]) new Object[capacity];
+        top   = 0;
+    }
+    
+    void Push(E elem)
+    {
+        if (top == capacity)
+        {
+            throw new FullStackException(String.format("Stack full can't push %s", elem));
+        }
+        else
+        {
+            elems[top++] = elem;
+        }
+    }
+    
+    void Pop()
+    {
+        if (top == 0)
+        {
+            throw new EmptyStackException(String.format("Stack empty can't pop"));            
+        }
+        else
+        {
+            elems[top--] = null;
+        }
+    }
+    
+    E top() 
+    { 
+        if (top == 0)
+        {
+           throw new EmptyStackException(String.format("Stack empty can't get top"));            
+        }
+        else
+        {
+            return elems[top - 1];
+        }         
+    }
+}
+
+public class myQueue {
+	public static void main(String[] args) {
+		MyStack<Integer> myStack = new MyStack<Integer>();
+		myStack.Push(5);
+		myStack.Push(7);
+		Iterator<Integer> itr = myStack.iterator();
+		while (itr.hasNext())
+			System.out.println(itr.next());
+	}
+}

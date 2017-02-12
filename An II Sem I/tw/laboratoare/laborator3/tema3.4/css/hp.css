@@ -1,0 +1,52 @@
+p {
+  color: pink;
+}
+
+p {
+  color: grey;
+}
+/*ramane ultima regula*/
+
+body {
+  background-color: #EEEEEE;
+  background-image: url("../pictures/android.png");
+}
+
+h1 {
+  border-bottom: 2px solid;
+  color: red;
+}
+
+h3 + p[color="green"] {
+  border-bottom: 2px dotted blue;
+}
+
+.c1 {
+  background-color: #E0B0FF;
+}
+
+.c2 {
+  font-style: italic;
+}
+
+p.c3 {
+  font-weight: bold;
+  color: #FF00FF;
+}
+
+.c2 {
+  text-decoration: line-through;
+}
+
+.c3 {
+  text-decoration: overline;
+}
+
+#pgf {
+  color: orange;
+  text-decoration: underline overline;
+}
+
+* {
+  outline: green dotted;
+}

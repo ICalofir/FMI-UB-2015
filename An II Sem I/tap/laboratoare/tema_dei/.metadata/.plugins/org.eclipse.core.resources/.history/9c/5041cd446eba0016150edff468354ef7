@@ -1,0 +1,40 @@
+import java.io.*;
+import java.util.*;
+
+public class p2 {
+	static private int n;
+	static private int x, y;
+	
+	private static void read() throws Exception {
+		File fin = new File("date.in");
+		Scanner sc = null;
+		
+		try {
+			sc = new Scanner(fin);
+			n = sc.nextInt();
+			x = sc.nextInt();
+			y = sc.nextInt();
+			
+		} catch (Exception ex) {
+			throw ex;
+		} finally {
+			if (sc != null) {
+				sc.close();
+			}
+		}
+	}
+	
+	static private int[][] v = new int();
+	
+	private static void solve() throws Exception {
+		Writer wr = new FileWriter("date.out", true);
+	
+		
+		wr.close();
+	}
+	
+	public static void main(String[] args) throws Exception {
+		read();
+		solve();
+	}
+}

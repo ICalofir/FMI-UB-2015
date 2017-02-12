@@ -1,0 +1,57 @@
+import java.io.*;
+import java.util.*;
+
+public class p1 {
+	private static int n, p;
+	private static class pair {
+		int l, c;
+		
+		pair() {
+			l = 0;
+			c = 0;
+		}
+		
+		pair(int l, int c) {
+			this.l = l;
+			this.c = c;
+		}
+	}
+	
+	private static ArrayList<pair> v = new ArrayList<pair>();
+	
+	private static void read() throws Exception {
+		File fin = new File("date.in");
+		Scanner sc = null;
+		
+		try {
+			sc = new Scanner(fin);
+			
+			n = sc.nextInt();
+			p = sc.nextInt();
+			for (int i = 1; i <= n; ++i) {
+				int l = sc.nextInt();
+				int c = sc.nextInt();
+				
+				v.add(new pair(l, c));
+			}
+		} catch (Exception ex) {
+			throw ex;
+		} finally {
+			if (sc != null) {
+				sc.close();
+			}
+		}
+	}
+	
+	private static void solve() {
+		System.out.println(n + " " + p);
+		for (pair x : v) {
+			System.out.println(x.l + " " + x.c);
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		read();
+		solve();
+	}
+}

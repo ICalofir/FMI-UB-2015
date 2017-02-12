@@ -1,0 +1,8 @@
+package myQueue;
+
+import java.util.*;
+
+public class myQueue<E> implements Iterable<E> {
+	LinkedList<E> elems = new LinkedList<E>();
+	int now;
+}

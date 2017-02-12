@@ -1,0 +1,31 @@
+import binaryTree.*;
+import java.util.*;
+
+public class p5 {
+	public static void main(String[] args) {
+		binaryTree<Integer, Integer> bt1 = new binaryTree<Integer, Integer>();
+		binaryTree<Integer, Integer> bt2 = new binaryTree<Integer, Integer>();
+		
+		bt1.insert(5, 5);
+		bt1.insert(3, 3);
+		bt1.insert(1, 1);
+		bt1.insert(7, 7);
+		bt1.insert(6, 6);
+		bt1.insert(8, 8);
+		bt2.insert(5, 5);
+		bt2.insert(3, 3);
+		bt2.insert(4, 4);
+		bt2.insert(1, 1);
+		bt2.insert(7, 7);
+		bt2.insert(6, 6);
+		bt2.insert(8, 8);
+		boolean eq = bt1.equals(bt2);
+		System.out.println(eq);
+		
+		HashMap<Integer, Integer> h = new HashMap<Integer, Integer>();
+		h.put(bt1.hashCode(), 4);
+		System.out.println(h.get(bt1.hashCode()));
+		h.put(bt2.hashCode(), 20);
+		System.out.println(h.get(bt1.hashCode()));
+	}
+}

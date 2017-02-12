@@ -1,0 +1,11 @@
+#trailer {
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+}
+
+#titlu {
+  text-align: center;
+  font-size: 150%;
+  font-weight: bolder;
+}

@@ -1,0 +1,33 @@
+body {
+  background-image: url("../pictures/pizza.jpg");
+  background-size: 100% 1000px;
+  background-repeat: no-repeat;
+}
+
+header {
+  height: 220px;
+}
+
+.Tabel {
+  overflow-x: auto;
+}
+
+table {
+  margin: auto;
+  border-spacing: 100px 0;
+}
+
+th {
+  font-size: 30px;
+  text-align: center;
+}
+
+td {
+  padding-top: 8px;
+  font-size: 20px;
+  text-align: left;
+}
+
+th, td {
+  border-bottom: 1px solid #ddd;
+}

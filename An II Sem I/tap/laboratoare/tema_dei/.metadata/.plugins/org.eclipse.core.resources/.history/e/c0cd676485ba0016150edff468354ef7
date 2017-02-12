@@ -1,0 +1,114 @@
+import java.io.*;
+import java.util.*;
+
+public class p3 {
+	private static int n, sol;
+	private static class pair {
+		int x, nr;
+		double w;
+	}
+	
+	private static ArrayList<pair> v = new ArrayList<pair>();
+	
+	private static void swap(int i, int j) {
+		pair aux = v.get(i);
+		v.set(i, v.get(j));
+		v.set(j, aux);
+	}
+	
+	private static int partition(int lt, int rt) {
+		int pivot = v.get(rt).x;
+		int i = lt;
+		for (int j = lt; j <= rt - 1; ++j) {
+			if (v.get(j).x <= pivot) {
+				swap(i, j);
+				i += 1;
+			}
+		}
+		swap(i, rt);
+		
+		return i;
+	}
+	
+	private static double sum(int lt, int rt) {
+		double s = 0.0;
+		for (int i = lt; i <= rt; ++i) {
+			s += v.get(i).w;
+		}
+		
+		return s;
+	}
+	
+	private static void WeightedMedian(int lt, int rt) {
+		if (lt == rt)
+			return;
+		
+		int q = partition(lt, rt);
+		double wl = sum(lt, q - 1);
+		double wr = sum(q + 1, rt);
+		
+		if (wl < 0.5 && wr <= 0.5) {
+			sol = v.get(q).x;
+			return;
+		} else {
+			if (wl > wr) {
+				pair aux = v.get(q);
+				aux.w += wr;
+				v.set(q, aux);
+			} else {
+				pair aux = v.get(q);
+				aux.w += wl;
+			}
+		}
+	}
+	
+	private static void read() throws Exception {
+		File fin = new File("date.in");
+		Scanner sc = null;
+		
+		try {
+			sc = new Scanner(fin);
+			n = sc.nextInt();
+			
+			for (int i = 1; i <= n; ++i) {
+				int x = sc.nextInt();
+				pair aux = new pair();
+				
+				aux.x = x;
+				v.add(aux);
+			}
+			
+			for (int i = 1; i <= n; ++i) {
+				double w = sc.nextDouble();
+				pair aux = new pair();
+				
+				aux.x = v.get(i - 1).x;
+				aux.w = w;
+				aux.nr = i;
+				v.set(i - 1, aux);
+			}
+			
+		} catch (Exception ex) {
+			throw ex;
+		} finally {
+			if (sc != null) {
+				sc.close();
+			}
+		}
+	}
+	
+	private static void solve() throws Exception {
+		Writer wr = new FileWriter("date.out");
+		
+		for (pair el : v) {
+			wr.write(el.x + " " + el.w + " " + el.nr + "\n");
+		}
+		
+		wr.close();
+	}
+	
+	public static void main(String[] args) throws Exception {
+		read();
+		solve();
+	}
+}

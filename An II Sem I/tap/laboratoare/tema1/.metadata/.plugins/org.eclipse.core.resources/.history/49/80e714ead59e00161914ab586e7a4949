@@ -1,0 +1,7 @@
+package myQueue;
+
+import java.util.*;
+
+public class myQueue<E>  {
+	LinkedList<E> elems = new LinkedList<E>();
+}

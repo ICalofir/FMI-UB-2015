@@ -1,0 +1,11 @@
+C:\Users\Ionut Calofir\Desktop\InfasuratoareConvexa\InfasuratoareConvexa\bin\Debug\InfasuratoareConvexa.exe.config
+C:\Users\Ionut Calofir\Desktop\InfasuratoareConvexa\InfasuratoareConvexa\bin\Debug\InfasuratoareConvexa.exe
+C:\Users\Ionut Calofir\Desktop\InfasuratoareConvexa\InfasuratoareConvexa\bin\Debug\InfasuratoareConvexa.pdb
+C:\Users\Ionut Calofir\Desktop\InfasuratoareConvexa\InfasuratoareConvexa\obj\Debug\InfasuratoareConvexa.csprojResolveAssemblyReference.cache
+C:\Users\Ionut Calofir\Desktop\InfasuratoareConvexa\InfasuratoareConvexa\obj\Debug\InfasuratoareConvexa.Form1.resources
+C:\Users\Ionut Calofir\Desktop\InfasuratoareConvexa\InfasuratoareConvexa\obj\Debug\InfasuratoareConvexa.Properties.Resources.resources
+C:\Users\Ionut Calofir\Desktop\InfasuratoareConvexa\InfasuratoareConvexa\obj\Debug\InfasuratoareConvexa.csproj.GenerateResource.Cache
+C:\Users\Ionut Calofir\Desktop\InfasuratoareConvexa\InfasuratoareConvexa\obj\Debug\InfasuratoareConvexa.exe
+C:\Users\Ionut Calofir\Desktop\InfasuratoareConvexa\InfasuratoareConvexa\obj\Debug\InfasuratoareConvexa.pdb
+C:\Users\Ionut Calofir\Desktop\InfasuratoareConvexa\InfasuratoareConvexa\obj\Debug\InfasuratoareConvexa.Form2.resources
+C:\Users\Ionut Calofir\Desktop\InfasuratoareConvexa\InfasuratoareConvexa\obj\Debug\InfasuratoareConvexa.Form3.resources

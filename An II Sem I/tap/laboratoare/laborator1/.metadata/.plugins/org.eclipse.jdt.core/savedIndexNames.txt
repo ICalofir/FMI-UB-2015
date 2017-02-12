@@ -1,0 +1,1 @@
+INDEX VERSION 1.126+/home/calo/Documents/Facultate/An II Sem I/tap/laboratoare/laborator1/.metadata/.plugins/org.eclipse.jdt.core

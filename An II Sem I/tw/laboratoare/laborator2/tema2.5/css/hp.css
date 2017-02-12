@@ -1,0 +1,15 @@
+table, th, td {
+  border: 1px solid black;
+}
+
+ol {
+  list-style-type: none;
+}
+
+li:before {
+  content: counter(pasi, decimal) ") ";
+}
+
+li {
+  counter-increment: pasi;
+}

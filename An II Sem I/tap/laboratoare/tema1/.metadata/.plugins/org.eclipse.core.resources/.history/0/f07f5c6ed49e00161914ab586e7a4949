@@ -1,0 +1,9 @@
+package myQueue;
+
+import java.util.*;
+
+public class myQueue {
+	public static void main(String[] args) {
+		LinkedList<E> mm = new LinkedList<E>();
+	}
+}

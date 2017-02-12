@@ -1,0 +1,21 @@
+//import java.util.*;
+
+//class Node {
+//	int val;
+//	Node left, right;
+//	
+//	Node (int val) {
+//		this.val = val;
+//		left = null;
+//		right = null;
+//	}
+//}
+
+public class huffman {
+	public static void main(String[] args) {
+//		Scanner keyboard = new Scanner(System.in);
+//		String str = keyboard.nextLine();
+//		keyboard.close();
+		System.out.println("str");
+	}
+}
