@@ -28,3 +28,12 @@
 * Probabilitati si statistica
 * Tehnici web
 * Sisteme de operare
+
+**An II, sem. II:**
+
+* Inteligenta artificiala
+* Programare logica
+* Programare avansata pe obiecte
+* Baze de date
+* Retele de calculatoare
+* Metode de dezvoltare software
