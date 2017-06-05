@@ -1,1 +1,0 @@
-http://www.javatpoint.com/object-pool-pattern

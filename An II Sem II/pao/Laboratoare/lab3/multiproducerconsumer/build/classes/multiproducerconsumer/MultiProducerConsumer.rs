@@ -1,5 +1,0 @@
-multiproducerconsumer.Consumer
-multiproducerconsumer.MultiProducerConsumer
-multiproducerconsumer.Producer
-multiproducerconsumer.MySharedQueue
-multiproducerconsumer.Prod

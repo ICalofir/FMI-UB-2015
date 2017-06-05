@@ -1,2 +1,0 @@
-histogram.Worker
-histogram.Histogram
