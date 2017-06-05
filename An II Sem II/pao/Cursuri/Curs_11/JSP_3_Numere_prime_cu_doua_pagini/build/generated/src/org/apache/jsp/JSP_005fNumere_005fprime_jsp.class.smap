@@ -1,0 +1,20 @@
+SMAP
+JSP_005fNumere_005fprime_jsp.java
+JSP
+*S JSP
+*F
++ 0 JSP_Numere_prime.jsp
+JSP_Numere_prime.jsp
+*L
+1,10:45
+11,6:56
+16:62
+17:63,3
+18:66
+19,13:68
+31:81
+32:82,3
+33:85
+34,5:87
+38,6:92
+*E

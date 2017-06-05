@@ -1,0 +1,31 @@
+import java.io.*;
+import java.net.*;
+
+public class Client {
+	private static class ChatClient implements Runnable {
+		private Socket socket;
+		
+		public ChatClient(Socket socket) {
+			this.socket = socket;
+		}
+		
+		public void run() {
+			
+		}
+	}
+	
+	public static void main(String[] args) {
+		try {
+			final String HOST = "localhost";
+			Socket socket = new Socket(HOST, 8000);
+			System.out.println("You connected to" + HOST + ".");
+			
+			ChatClient chatClient = new ChatClient(socket);
+			
+			Thread thread = new Thread(chatClient);
+			chatClient.start();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}

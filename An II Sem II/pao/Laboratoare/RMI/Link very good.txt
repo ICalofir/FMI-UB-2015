@@ -1,0 +1,1 @@
+http://dsnet.tu-plovdiv.bg/website/container/rmi/RMI.html#RMIClientSideCallbacks

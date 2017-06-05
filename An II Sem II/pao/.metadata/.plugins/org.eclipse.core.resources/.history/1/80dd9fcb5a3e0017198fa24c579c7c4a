@@ -1,0 +1,88 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class Client {
+	private static class ChatClient implements Runnable {
+		private Socket socket;
+		private Scanner input;
+		private PrintWriter output;
+		private String message;
+		private Communication communication;
+		
+		public ChatClient(Socket socket) throws Exception {
+			this.socket = socket;
+			this.input = new Scanner(this.socket.getInputStream());
+			this.output = new PrintWriter(this.socket.getOutputStream());
+		}
+		
+		public void run() {
+			try {
+				checkStream();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		private void checkStream() throws Exception {
+			while (true) {
+				if (this.input.hasNextLine()) {
+					this.message = this.input.nextLine();
+					
+					System.out.println(this.message);
+				}
+			}
+		}
+		
+		public void sendToServer(String type, String content) throws Exception {
+			this.communication = new Communication();
+			this.message = this.communication.encodeJSON(type, content);
+			output.println(this.message);
+			output.flush();
+		}
+	}
+	
+	private static Scanner scanner = null;
+	private static Socket socket;
+	private static ChatClient chatClient;
+	public static void main(String[] args) {
+		try {
+			scanner = new Scanner(System.in);
+			
+			final String HOST = "localhost";
+			socket = new Socket(HOST, 8000);
+			
+			chatClient = new ChatClient(socket);
+			
+			while (true) {
+				Scanner input = new Scanner(socket.getInputStream());
+				PrintWriter output = new PrintWriter(socket.getOutputStream());
+				
+				System.out.println("Username: ");
+				String username = scanner.nextLine();
+				output.println(username);
+				output.flush();
+				
+				String message = input.nextLine();
+				Communication communication = new Communication();
+				communication.decodeJSON(message);
+				System.out.println(communication.Type);
+				System.out.println(Communication.CommunicationType.SUCCESS.name());
+				if (communication.Type == Communication.CommunicationType.SUCCESS.name()) {
+					System.out.println("Your are now connected.");
+					System.out.println("CE PULA MEA COAIE);
+//					
+					break;
+				}
+//				} else {
+//					System.out.println("Invalid username, please try again.");
+//				}
+			}
+			
+			Thread thread = new Thread(chatClient);
+			thread.start();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}

@@ -1,0 +1,121 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class Server {
+	private static class Connection implements Runnable {
+		private Socket socket;
+		private String username;
+		private Scanner input;
+		private PrintWriter output;
+		private String message;
+		private Communication communication;
+		private Connection chattingUser;
+		
+		public Connection(Socket socket) {
+			this.socket = socket;
+		}
+		
+		public Socket getSocket() {
+			return this.socket;
+		}
+		
+		public String getUsername() {
+			return this.username;
+		}
+		
+		public Connection getChattingUser() {
+			return this.chattingUser;
+		}
+		
+		public void setChattingUser(Connection chattingUser) {
+			this.chattingUser = chattingUser;
+		}
+		
+		public void run() {
+			try {
+				this.input = new Scanner(this.socket.getInputStream());
+				this.output = new PrintWriter(this.socket.getOutputStream());
+				
+				while (true) {
+					if (!this.input.hasNext()) {
+						return;
+					}
+					
+					this.message = input.nextLine();
+					this.communication = new Communication();
+					this.communication.decodeJSON(this.message);
+					
+					if (this.communication.Type == Communication.CommunicationType.WHISPER_USER.name()) {
+						Boolean found = false;
+						for (Connection con : Server.connections) {
+							if (con.getUsername() == this.communication.Content) {
+								found = true;
+								this.chattingUser = con; 
+								output.println("You are now connected with " + con.getUsername());
+								output.flush();
+								break;
+							}
+						}
+						if (!found) {
+							output.println("User " + this.communication.Content + " not found.");
+							output.flush();
+						}
+					} else if (this.communication.Type == Communication.CommunicationType.ANNOUNCEMENT.name()) {
+						for (Connection con : Server.connections) {
+							PrintWriter tempOutput = new PrintWriter(con.getSocket().getOutputStream());
+							tempOutput.println(this.username + ": " + this.communication.Content);
+							tempOutput.flush();
+						}
+					} else if (this.communication.Type == Communication.CommunicationType.SHOW_CONNECTED_USERS.name()) {
+						for (Connection con : Server.connections) {
+							output.println(con.getUsername());
+							output.flush();
+						}
+					} else if (this.communication.Type == Communication.CommunicationType.MAIN_MENU.name()) {
+						this.chattingUser = null;
+						output.println("You are now to main menu.");
+						output.flush();
+					} else if (this.communication.Type == Communication.CommunicationType.TEXT.name()) {
+						if (this.chattingUser != null) {
+							PrintWriter tempOutput = new PrintWriter(this.chattingUser.getSocket().getOutputStream());
+							tempOutput.println(this.username + ": " + this.communication.Content);
+							tempOutput.flush();
+						} else {
+							output.println("Invalid option!");
+							output.flush();
+						}
+					} else if (this.communication.Type == Communication.CommunicationType.EXIT.name()) {
+						this.socket.close();
+					}
+				}
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	
+	private static ServerSocket serverSocket;
+	private static Socket socket;
+	private static ArrayList<Connection> connections = new ArrayList<Connection>();
+	public static void main(String[] args) throws Exception {
+		try {
+			serverSocket = new ServerSocket(8000);
+			System.out.println("Running...");
+			
+			while(true) {
+				Socket socket = serverSocket.accept();
+				Connection connection = new Connection(socket);
+				connections.add(connection);
+				
+				System.out.println("Client connected from: " + socket.getLocalAddress().getHostName());
+				
+				Thread thread = new Thread(connection);
+				thread.start();
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}

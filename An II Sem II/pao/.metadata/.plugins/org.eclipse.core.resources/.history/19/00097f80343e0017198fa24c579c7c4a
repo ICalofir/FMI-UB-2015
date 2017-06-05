@@ -1,0 +1,11 @@
+public class Communication {
+	public enum CommunicationType {
+		SHOW_CONNECTED_USERS,
+		WHISPER_USER,
+		ANNOUNCEMENT,
+		INVALID_USERNAME
+	}
+	
+	public Integer communicationType;
+	
+}

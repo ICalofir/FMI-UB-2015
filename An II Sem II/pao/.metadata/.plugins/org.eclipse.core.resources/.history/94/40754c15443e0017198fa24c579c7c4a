@@ -1,0 +1,59 @@
+import java.io.StringWriter;
+import org.json.simple.*;
+import org.json.simple.parser.*;
+
+public class Communication {
+	public enum CommunicationType {
+		SHOW_CONNECTED_USERS,
+		WHISPER_USER,
+		ANNOUNCEMENT,
+		MAIN_MENU,
+		TEXT,
+		EXIT,
+		INVALID_USERNAME
+	}
+	
+	public String Type;
+	public String Content;
+	
+	public void translateCommunication(String message) {
+		if (message.substring(0, 1).equals("/w")) {
+			this.Type = CommunicationType.WHISPER_USER.name();
+			this.Content = message.substring(2);
+		} else if (message.substring(0, 1).equals("/a")) {
+			this.Type = CommunicationType.ANNOUNCEMENT.name();
+			this.Content = message.substring(2);
+		} else if (message.substring(0, 5).equals("/users")) {
+			this.Type = CommunicationType.SHOW_CONNECTED_USERS.name();
+			this.Content = null;
+		} else if (message.substring(0, 4).equals("/exit")) {
+			this.Type = CommuncationType.EXIT.name();
+			this.Content = null;
+		} else {
+			this.Type = CommunicationType.TEXT.name();
+			this.Content = message;
+		}
+	}
+	
+	public String encodeJSON(String type, String content) throws Exception {
+		JSONObject obj = new JSONObject();
+
+	    obj.put("Type", type);
+	    obj.put("Content", content);
+
+	    StringWriter out = new StringWriter();
+	    obj.writeJSONString(out);
+	    String jsonText = out.toString();
+	    
+	    return jsonText;
+	}
+	
+	public void decodeJSON(String jsonText) throws Exception {
+		JSONParser parser = new JSONParser();
+	    Object obj = parser.parse(jsonText);
+	    JSONObject jsonObj = (JSONObject)obj;
+	    
+	    this.Type = jsonObj.get("Type").toString();
+	    this.Content = jsonObj.get("Content").toString();
+	}
+}

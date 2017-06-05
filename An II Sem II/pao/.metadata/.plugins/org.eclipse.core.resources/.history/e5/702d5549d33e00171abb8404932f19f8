@@ -1,0 +1,9 @@
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.*;
+
+public interface TicketReservation extends Remote {
+	Integer requestReservation(ArrayList<Integer> tickets) throws RemoteException;
+	ArrayList<Integer> querySeats() throws RemoteException;
+	ArrayList<Integer> queryReservation(Integer reservationID) throws RemoteException;
+}

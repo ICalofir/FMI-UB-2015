@@ -1,0 +1,41 @@
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.*;
+        
+public class Server implements TicketReservation {
+    private final int N = 10;
+    private int reservationID;
+    private HashMap<Integer, Boolean> availableSeats = new HashMap<Integer, Boolean>();
+    
+    public Server() {
+    	for (int i = 1; i <= N; ++i) {
+    		availableSeats.put(i, false);
+    	}
+    	reservationID = 1;
+    }
+    
+    public int requestReservation(ArrayList<Integer> seats) {
+    	for (int seat : seats) {
+    		if
+    	}
+    }
+    
+    public static void main(String args[]) {
+        
+        try {
+            Server obj = new Server();
+            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0);
+
+            // Bind the remote object's stub in the registry
+            Registry registry = LocateRegistry.getRegistry();
+            registry.bind("Hello", stub);
+
+            System.err.println("Server ready");
+        } catch (Exception e) {
+            System.err.println("Server exception: " + e.toString());
+            e.printStackTrace();
+        }
+    }
+}

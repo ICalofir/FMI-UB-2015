@@ -1,0 +1,9 @@
+readersandwriters_3.Database$OpType
+readersandwriters_3.Database$WaitingPerson
+readersandwriters_3.WaitingEntity
+readersandwriters_3.Database$QueueEntry
+readersandwriters_3.Database
+readersandwriters_3.Reader
+readersandwriters_3.ReadersAndWriters_3
+readersandwriters_3.Database$WaitingEntity
+readersandwriters_3.Writer

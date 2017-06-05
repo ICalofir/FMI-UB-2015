@@ -1,0 +1,76 @@
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import org.json.simple.*;
+import org.json.simple.parser.*;
+
+public class Communication {
+	private static Communication instance = new Communication();
+	private Communication() {}
+	
+	public static Communication getInstance() {
+		return instance;
+	}
+	
+	public enum CommunicationType {
+		SHOW_CONNECTED_USERS,
+		WHISPER_USER,
+		ANNOUNCEMENT,
+		MAIN_MENU,
+		TEXT,
+		EXIT,
+		FAIL,
+		SUCCESS,
+	}
+	
+	public String Type;
+	public String Content;
+	
+	public void translateCommunication(String message) {
+		this.Content = null;
+		
+		if (message.length() >= 2 && message.substring(0, 2).equals("/w")) {
+			this.Type = CommunicationType.WHISPER_USER.name();
+			this.Content = message.substring(3);
+		} else if (message.length() >= 2 && message.substring(0, 2).equals("/a")) {
+			this.Type = CommunicationType.ANNOUNCEMENT.name();
+			this.Content = message.substring(3);
+		} else if (message.length() >= 6 && message.substring(0, 6).equals("/users")) {
+			this.Type = CommunicationType.SHOW_CONNECTED_USERS.name();
+		} else if (message.length() >= 2 && message.substring(0, 2).equals("/m")) {
+			this.Type = CommunicationType.MAIN_MENU.name();
+		} else if (message.length() >= 5 && message.substring(0, 5).equals("/exit")) {
+			this.Type = CommunicationType.EXIT.name();
+		} else {
+			this.Type = CommunicationType.TEXT.name();
+			this.Content = message;
+		}
+	}
+	
+	public String encodeJSON(String type, String content) throws Exception {
+		JSONObject obj = new JSONObject();
+
+	    obj.put("Type", type);
+	    obj.put("Content", content);
+
+	    StringWriter out = new StringWriter();
+	    obj.writeJSONString(out);
+	    String jsonText = out.toString();
+	    
+	    return jsonText;
+	}
+	
+	public void decodeJSON(String jsonText) throws Exception {
+		JSONParser parser = new JSONParser();
+	    Object obj = parser.parse(jsonText);
+	    JSONObject jsonObj = (JSONObject)obj;
+	    
+	    if (jsonObj.get("Type") != null)
+	    	this.Type = jsonObj.get("Type").toString();
+	    if (jsonObj.get("Content") != null)
+	    	this.Content = jsonObj.get("Content").toString();
+	}
+	
+	public void sendMessage(PrintWriter output, String message) {
+		output.println(message);
+	}
+}

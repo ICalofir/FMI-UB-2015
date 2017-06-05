@@ -1,0 +1,16 @@
+fmod MYNAT is
+	sorts Zero NzNat Nat .
+  	subsort Zero NzNat < Nat .
+  	op 0 : -> Zero .
+  	op s_ : Nat -> NzNat .
+  	ops _+_ _*_ : Nat Nat -> Nat [assoc comm].
+  	op _+_ : NzNat Nat -> NzNat [ditto] .
+  	op _*_ : NzNat NzNat -> NzNat [ditto] .
+  	vars N M : Nat .
+  	eq 0 + M = M .
+  	eq s(N) + M = s(N + M) .
+  	eq 0 * M = 0 .
+  	eq s(N) * M = (N * M) + M .
+endfm
+
+red s(s(0)) + s(s(0)) .

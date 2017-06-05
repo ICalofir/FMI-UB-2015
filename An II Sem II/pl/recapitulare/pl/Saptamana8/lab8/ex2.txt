@@ -1,0 +1,14 @@
+fmod TREE is
+	protecting INT .
+	sort Tree .
+	op empty : -> Tree .
+	op _ _ _ : Tree Int Tree -> Tree .
+endfm
+
+fmod MIRROR is
+	protecting TREE .
+	op mirror : Tree -> Tree .
+	vars L R : Tree . var I : Int .
+	eq mirror(empty) = empty .
+	eq mirror(L I R) = mirror(R) I mirror(L) .
+endfm

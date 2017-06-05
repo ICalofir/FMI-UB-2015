@@ -1,0 +1,176 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class Server {
+	private static class Connection implements Runnable {
+		private Socket socket;
+		private String username;
+		private Scanner input;
+		private PrintWriter output;
+		private String message;
+		private Communication communication;
+		private Connection chattingUser;
+		
+		public Connection(Socket socket) throws Exception {
+			this.socket = socket;
+			this.input = new Scanner(this.socket.getInputStream());
+			this.output = new PrintWriter(this.socket.getOutputStream());
+			this.username = null;
+		}
+		
+		public Socket getSocket() {
+			return this.socket;
+		}
+		
+		public String getUsername() {
+			return this.username;
+		}
+		
+		public Connection getChattingUser() {
+			return this.chattingUser;
+		}
+		
+		public void setChattingUser(Connection chattingUser) {
+			this.chattingUser = chattingUser;
+		}
+		
+		private void addUser() throws Exception {
+			while (true) {
+				String tempUsername = input.nextLine();
+				
+				Boolean ok = true;
+				for (Connection con : Server.connections) {
+					if (con.getUsername().equals(tempUsername)) {
+						ok = false;
+						break;
+					}
+				}
+				
+				if (ok == true) {
+					this.communication = new Communication();
+					this.message = this.communication.encodeJSON(Communication.CommunicationType.SUCCESS.name(), null);
+					output.println(this.message);
+					output.flush();
+					this.username = tempUsername;
+					
+					break;
+				} else {
+					this.communication = new Communication();
+					this.message = this.communication.encodeJSON(Communication.CommunicationType.FAIL.name(), null);
+					output.println(this.message);
+					output.flush();
+				}
+			}
+		}
+		
+		public void run() {
+			try {
+				addUser();
+				
+				System.out.println("Client connected from: " + socket.getLocalAddress().getHostName() + ".");
+				
+				while (true) {
+					if (!this.input.hasNext()) {
+						return;
+					}
+					
+					this.message = input.nextLine();
+					this.communication = new Communication();
+					this.communication.decodeJSON(this.message);
+					
+					if (this.communication.Type == Communication.CommunicationType.WHISPER_USER.name()) {
+						Boolean found = false;
+						for (Connection con : Server.connections) {
+							if (con.getUsername() == this.communication.Content) {
+								found = true;
+								this.chattingUser = con; 
+								output.println("You are now connected with " + con.getUsername());
+								output.flush();
+								break;
+							}
+						}
+						if (!found) {
+							output.println("User " + this.communication.Content + " not found.");
+							output.flush();
+						}
+					} else if (this.communication.Type == Communication.CommunicationType.ANNOUNCEMENT.name()) {
+						for (Connection conn : Server.connections) {
+							PrintWriter tempOutput = new PrintWriter(conn.getSocket().getOutputStream());
+							tempOutput.println(this.username + ": " + this.communication.Content);
+							tempOutput.flush();
+						}
+					} else if (this.communication.Type == Communication.CommunicationType.SHOW_CONNECTED_USERS.name()) {
+						for (Connection conn : Server.connections) {
+							output.println(conn.getUsername());
+							output.flush();
+						}
+					} else if (this.communication.Type == Communication.CommunicationType.MAIN_MENU.name()) {
+						this.chattingUser = null;
+						output.println("You are now to main menu.");
+						output.flush();
+					} else if (this.communication.Type == Communication.CommunicationType.TEXT.name()) {
+						if (this.chattingUser != null) {
+							PrintWriter tempOutput = new PrintWriter(this.chattingUser.getSocket().getOutputStream());
+							tempOutput.println(this.username + ": " + this.communication.Content);
+							tempOutput.flush();
+						} else {
+							output.println("Invalid option!");
+							output.flush();
+						}
+					} else if (this.communication.Type == Communication.CommunicationType.EXIT.name()) {
+						for (Connection conn : Server.connections) {
+							if (conn.getChattingUser().equals(this)) {
+								PrintWriter tempOutput = new PrintWriter(conn.getSocket().getOutputStream());
+								tempOutput.println(this.username + " has disconnected.");
+								tempOutput.flush();
+								break;
+							}
+						}
+						
+						System.out.println("Client disconnected from: " + this.socket.getLocalAddress().getHostName() + ".");
+						this.socket.close();
+						Server.connections.remove(this);
+					}
+				}
+				
+			} catch (Exception e) {
+				try {
+					for (Connection conn : Server.connections) {
+						if (conn.getChattingUser().equals(this)) {
+							PrintWriter tempOutput = new PrintWriter(conn.getSocket().getOutputStream());
+							tempOutput.println(this.username + " has disconnected.");
+							tempOutput.flush();
+							break;
+						}
+					}
+					System.out.println("Client disconnected.");
+					Server.connections.remove(this);
+				} catch (Exception ex) {
+					System.out.println("CE PLdsadasdadM");
+				}
+			}
+		}
+	}
+	
+	private static ServerSocket serverSocket;
+	private static Socket socket;
+	private static ArrayList<Connection> connections = new ArrayList<Connection>();
+	public static void main(String[] args) throws Exception {
+		try {
+			serverSocket = new ServerSocket(8000);
+			System.out.println("Server started.");
+			
+			while(true) {
+				Socket socket = serverSocket.accept();
+				Connection connection = new Connection(socket);
+				connections.add(connection);
+				
+				Thread thread = new Thread(connection);
+				thread.start();
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}

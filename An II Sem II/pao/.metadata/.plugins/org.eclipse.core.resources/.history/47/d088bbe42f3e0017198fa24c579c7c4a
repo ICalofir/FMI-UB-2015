@@ -1,0 +1,48 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class Server {
+	private static class Connection implements Runnable {
+		private Socket socket;
+		private String username;
+		private Scanner input;
+		
+		public Connection(Socket socket) {
+			this.socket = socket;
+			this.input = new Scanner(this.socket.getInputStream());
+		}
+	}
+	
+	private static ServerSocket serverSocket;
+	private static Socket socket;
+	private static ArrayList<Connection> Connections = new ArrayList<Connection>();
+	public static void main(String[] args) {
+		try {
+			serverSocket = new ServerSocket(8000);
+			System.out.println("Running...");
+			
+			while(true) {
+				Socket socket = serverSocket.accept();
+				Connection connection = new Connection(socket);
+				
+				Thread thread = new Thread(connection);
+				thread.start();
+				
+				
+				
+				BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				
+				String message = input.readLine();
+				System.out.println(message);
+				
+				if (message != null) {
+					PrintStream output = new PrintStream(socket.getOutputStream());
+					output.println("Am primit mesajul!");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}

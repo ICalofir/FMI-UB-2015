@@ -1,0 +1,9 @@
+import java.io.*;
+import java.net.*;
+
+public class Server {
+	public static void main() {
+		ServerSocket serverSocket = new ServerSocket(8000);
+		
+	}
+}

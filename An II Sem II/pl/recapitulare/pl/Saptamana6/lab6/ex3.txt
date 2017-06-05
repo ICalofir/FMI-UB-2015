@@ -1,0 +1,16 @@
+fmod DATA-CALENDARISTICA is
+	including INT .
+	sort Dc .
+	op _/_/_ : Nat Nat Nat -> Dc .
+	op valid : Dc -> Bool .
+	op add : Nat Dc -> Dc .
+	vars Z L A X : Nat .
+	eq add(0, Z / L / A) = Z / L / A .
+	eq add(X, Z / L / A) =
+		if valid(Z + 1 / L / A) then add(X - 1, Z + 1 / L / A)
+		else if valid(1 / L + 1 / A) then add(X - 1, 1 / L + 1 / A)
+		else add(X - 1, 1 / 1 / A + 1) fi fi .
+
+	ceq valid(Z / L / A) = true if (Z <= 31 and L <= 12) .
+	ceq valid(Z / L / A) = false if (Z > 31 or L > 12) .
+endfm

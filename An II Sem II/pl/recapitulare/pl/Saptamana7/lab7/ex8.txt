@@ -1,0 +1,55 @@
+fmod LIST-INT2 is
+	protecting INT .
+	sorts NList List .
+	subsort Int < NList < List .
+	op nil : -> List .
+	op _ _ : Int List -> NList [id: nil] .
+endfm
+
+fmod LENGTH is
+	protecting LIST-INT2 .
+	op length : List -> Nat .
+	op _in_ : Int NList -> Bool .
+	op append : List List -> List .
+	op rev : List -> List .
+	op sort : List -> List .
+	op insert : Int List -> List .
+	op _<<<_ : List List -> Bool .
+	op replace : Int Int List -> List .
+	op add : Int List -> List .
+
+	var I H H1 H2 A B : Int .
+	var L L1 L2 : List .
+
+	eq length(nil) = 0 .
+	eq length(I L) = 1 + length(L) .
+
+	eq I in nil = false .
+	eq I in H L = I == H or I in L .
+
+	eq append(nil, L2) = L2 .
+	eq append(H L1, L2) = H append(L1, L2) .
+
+	eq rev(nil) = nil .
+	eq rev(H L) = append(rev(L), H) .
+
+	eq insert(I, nil) = I .
+	eq insert(I, H L) = if I <= H then I H L
+			else H insert(I, L) fi .
+
+	eq sort(nil) = nil .
+	eq sort(H L) = insert(H, sort(L)) .
+
+	ceq L1 <<< L2 = true if length(L1) < length(L2) .
+	ceq L1 <<< L2 = false if length(L1) > length(L2) .
+	eq nil <<< nil = true .
+	eq H1 L1 <<< H2 L2 = if H1 == H2 then L1 <<< L2
+				else false fi .
+
+	eq replace(A, B, nil) = nil .
+	eq replace(A, B, H L) = if A == H then B replace(A, B, L)
+				else H replace(A, B, L) fi .
+
+	eq add(A, nil) = nil .
+	eq add(A, H L) = H A add(A, L) .
+endfm

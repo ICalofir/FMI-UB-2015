@@ -1,0 +1,11 @@
+fmod COMPLEX is
+	including INT .
+	sort Complex .
+	subsort Int < Complex .
+	op _+_i : Int Int -> Complex .
+	op _+_ : Complex Complex -> Complex [ditto] .
+	op _*_ : Complex Complex -> Complex [ditto] .
+	vars N M X Y : Int .
+	eq (N + M i) + (X + Y i) = (N + X) + (M + Y) i .
+	eq (N + M i) * (X + Y i) = (N * X - M * Y) + (N * Y + M * X) i .
+endfm

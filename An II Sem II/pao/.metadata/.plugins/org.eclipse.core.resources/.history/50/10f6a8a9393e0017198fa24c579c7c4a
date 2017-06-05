@@ -1,0 +1,26 @@
+import org.json.simple.JSONObject;
+import java.io.*;
+
+public class testjson {
+	public enum lala {
+		aaa,
+		bbb
+	}
+	
+	public static void main(String[] args) throws IOException {
+		JSONObject obj = new JSONObject();
+
+	     obj.put("type",lala.aaa);
+	     obj.put("content","foo");
+
+	     StringWriter out = new StringWriter();
+	     obj.writeJSONString(out);
+	      
+	     String jsonText = out.toString();
+	     System.out.print(jsonText);
+	     
+	     
+	     Object obj = parser.parse(s);
+	     
+	}
+}

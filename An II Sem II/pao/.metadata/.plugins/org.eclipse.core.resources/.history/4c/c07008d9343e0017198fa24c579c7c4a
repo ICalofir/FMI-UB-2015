@@ -1,0 +1,15 @@
+public class Communication {
+	public enum CommunicationType {
+		SHOW_CONNECTED_USERS,
+		WHISPER_USER,
+		ANNOUNCEMENT,
+		INVALID_USERNAME
+	}
+	
+	public Integer Type;
+	public String Content;
+	
+	public void translateCommunication(String text) {
+		if (text.substring(0, 1))
+	}
+}

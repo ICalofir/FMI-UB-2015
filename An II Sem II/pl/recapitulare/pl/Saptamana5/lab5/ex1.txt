@@ -1,0 +1,22 @@
+fmod MYNAT-SIMPLE is
+	sort Nat .
+	op 0 : -> Nat .
+	op succ : Nat -> Nat .
+	op plus : Nat Nat -> Nat .
+	vars N M : Nat .
+	eq plus(0, M) = M .
+	eq plus(succ(N), M) = succ(plus(N, M)) .
+endfm
+
+red plus(succ(0),succ(0)) .
+red plus(succ(0),succ(succ(0))) .
+red plus(plus(succ(0),succ(0)),succ(succ(0))) .
+red succ(succ(0)) == plus(succ(0),succ(0)) .
+
+fmod MYNAT-SIMPLE* is
+ 	including MYNAT-SIMPLE .
+ 	op mult : Nat Nat -> Nat .
+  	vars M N : Nat .
+  	eq mult(0, M) = 0 .
+  	eq mult(succ(N), M) = plus(mult(N, M), M) .
+endfm

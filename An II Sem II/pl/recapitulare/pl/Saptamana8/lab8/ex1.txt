@@ -1,0 +1,6 @@
+fmod TREE is
+	protecting INT .
+	sort Tree .
+	op empty : -> Tree .
+	op _ _ _ : Tree Int Tree -> Tree .
+endfm

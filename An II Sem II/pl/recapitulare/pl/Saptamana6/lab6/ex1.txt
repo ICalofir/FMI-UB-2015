@@ -1,0 +1,59 @@
+fmod MYNAT is
+	sorts Zero NzNat Nat .
+  	subsort Zero NzNat < Nat .
+  
+  	op 0 : -> Zero .
+  	op s_ : Nat -> NzNat .
+  	op _+_ : Nat Nat -> Nat [assoc comm prec 33] .
+  	op _*_ : Nat Nat -> Nat [assoc comm prec 31] .
+  	op _-_ : Nat Nat -> Nat [assoc prec 33] .
+  	op _<_ : Nat Nat -> Bool .
+  	op _>_ : Nat Nat -> Bool .
+  	op _<=_ : Nat Nat -> Bool .
+  	op _>=_ : Nat Nat -> Bool .
+  	op min : Nat Nat -> Nat .
+  	op max : Nat Nat -> Nat .
+  	op par_ : Nat -> Bool .
+  	op impar_ : Nat -> Bool .
+  	op cmmdc : Nat Nat -> Nat .
+  
+  	vars N M : Nat .
+  
+  	eq 0 + M = M .
+  	eq s(N) + M = s(N + M) .
+  
+  	eq 0 * M = 0 .
+  	eq s(N) * M = (N * M) + M .
+  
+  	eq M - 0 = M .
+  	eq s(M) - s(N) = M - N .
+  
+  	eq 0 < 0 = false .
+  	eq 0 < s(N) = true .
+  	eq s(N) < 0 = false .
+  	eq s(N) < s(M) = N < M .
+  
+  	eq N <= M = (N < M) or (N == M) .
+  
+  	eq N > M = not(N <= M) .
+  	eq N >= M = (N > M) or (N == M) .
+  
+  	ceq min(N, M) = N if N <= M .
+  	ceq min(N, M) = M if M < N .
+  
+  	ceq max(N, M) = N if N >= M .
+  	ceq max(N, M) = M if M > N .
+  
+  	eq par(0) = true .
+  	eq par(s(0)) = false .
+  	eq par(s(s(N))) = par(N) .
+  
+  	eq impar(N) = not(par(N)) .
+  
+  	eq cmmdc(N, N) = N .
+  	ceq cmmdc(N, M) = cmmdc(N - M, M) if (N > M) .
+  	ceq cmmdc(N, M) = cmmdc(N, M - N) if (M > N) .
+endfm
+
+***set trace on .
+red cmmdc(s(s(s(s(0)))), s(s(0))) . 

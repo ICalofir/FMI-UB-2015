@@ -1,0 +1,12 @@
+import java.io.*;
+import java.net.*;
+
+public class Server {
+	public static void main() {
+		try {
+			ServerSocket serverSocket = new ServerSocket(8000);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}

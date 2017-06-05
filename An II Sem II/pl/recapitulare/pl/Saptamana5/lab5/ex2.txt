@@ -1,0 +1,20 @@
+fmod MYNAT-SIMPLE is
+	sort Nat .
+	op 0 : -> Nat .
+	op s_ : Nat -> Nat .
+	op _+_ : Nat Nat -> Nat .
+	vars N M : Nat .
+  	eq 0 + M = M .
+	eq s(N) + M = s(N + M) .
+endfm
+
+fmod MYNAT-SIMPLE* is
+ 	including MYNAT-SIMPLE .
+ 	op _*_ : Nat Nat -> Nat .
+  	vars M N : Nat .
+  	eq 0 * M = 0 .
+  	eq s(N) * M = (N * M) + M .
+endfm
+
+set trace on .
+red (s(0) + s(0)) * s(s(0)) .

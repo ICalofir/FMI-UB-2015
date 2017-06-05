@@ -1,0 +1,68 @@
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.*;
+        
+public class Server implements TicketReservation {
+    private final int N = 10;
+    private int reservationID;
+    private ArrayList<Integer> seatsHistory = new ArrayList<Integer>();
+    private HashMap<Integer, ArrayList<Integer>> reservationHistory = new HashMap<Integer, ArrayList<Integer>>();
+    private HashMap<Integer, Boolean> availableSeats = new HashMap<Integer, Boolean>();
+    
+    public Server() {
+    	for (int i = 1; i <= N; ++i) {
+    		availableSeats.put(i, false);
+    		seatsHistory.add(i, i);
+    	}
+    	reservationID = 0;
+    }
+    
+    public int requestReservation(ArrayList<Integer> seats) {
+    	boolean ok = true;
+    	for (int seat : seats) {
+    		if (availableSeats.get(seat) == false) {
+    			ok = false;
+    			break;
+    		}
+    	}
+    	
+    	if (ok) {
+    		for (int seat : seats) {
+    			availableSeats.put(seat, true);
+    			seatsHistory.remove(seat);
+    		}
+    		
+    		++reservationID;
+    		reservationHistory.put(reservationID, seats);
+    		return reservationID;
+    	}
+    	
+    	return 0;
+    }
+    
+    public ArrayList<Integer> querySeats() {
+    	return seatsHistory;
+    }
+    
+    public ArrayList<Integer> queryReservation(int reservationID) {
+    	return reservationHistory.get(reservationID);
+    }
+    
+    public static void main(String args[]) {
+        
+        try {
+        	Server server = new Server();
+        	TicketReservation stub = (TicketReservation) UnicastRemoteObject.exportObject(server, 0);
+
+            // Bind the remote object's stub in the registry
+            Registry registry = LocateRegistry.getRegistry();
+            registry.bind("TicketReservation", stub);
+
+            System.out.println("Server ready");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}

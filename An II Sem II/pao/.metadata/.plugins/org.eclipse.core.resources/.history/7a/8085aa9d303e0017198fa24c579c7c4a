@@ -1,0 +1,41 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class Server {
+	private static class Connection implements Runnable {
+		private Socket socket;
+		private String username;
+		private Scanner input;
+		private PrintWriter output;
+		
+		public Connection(Socket socket) throws IOException {
+			this.socket = socket;
+			this.input = new Scanner(this.socket.getInputStream());
+			
+		}
+	}
+	
+	private static ServerSocket serverSocket;
+	private static Socket socket;
+	private static ArrayList<Connection> connections = new ArrayList<Connection>();
+	public static void main(String[] args) {
+		try {
+			serverSocket = new ServerSocket(8000);
+			System.out.println("Running...");
+			
+			while(true) {
+				Socket socket = serverSocket.accept();
+				Connection connection = new Connection(socket);
+				connections.add(connection);
+				
+				System.out.println("Client connected from: " + socket.getLocalAddress().getHostName());
+				
+				Thread thread = new Thread(connection);
+				thread.start();
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}

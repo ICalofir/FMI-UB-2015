@@ -1,0 +1,7 @@
+fmod LIST-INT3 is
+	protecting INT .
+	sort List .
+	subsort Int < List .
+	op nil : -> List .
+	op _ _ : List List -> List [assoc id: nil] .
+endfm

@@ -1,0 +1,67 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import Communication.CommunicationType;
+
+public class Server {
+	private static class Connection implements Runnable {
+		private Socket socket;
+		private String username;
+		private Scanner input;
+		private PrintWriter output;
+		private String message;
+		private Communication communication;
+		
+		public Connection(Socket socket) {
+			this.socket = socket;
+		}
+		
+		public void run() {
+			try {
+				this.input = new Scanner(this.socket.getInputStream());
+				this.output = new PrintWriter(this.socket.getOutputStream());
+				
+				while (true) {
+					if (!this.input.hasNext()) {
+						return;
+					}
+					
+					this.message = input.nextLine();
+					communication = new Communication();
+					communication.decodeJSON(this.message);
+					
+					if (communication.Type == CommunicationType.ANNOUNCEMENT) {
+						
+					}
+				}
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	
+	private static ServerSocket serverSocket;
+	private static Socket socket;
+	private static ArrayList<Connection> connections = new ArrayList<Connection>();
+	public static void main(String[] args) throws Exception {
+		try {
+			serverSocket = new ServerSocket(8000);
+			System.out.println("Running...");
+			
+			while(true) {
+				Socket socket = serverSocket.accept();
+				Connection connection = new Connection(socket);
+				connections.add(connection);
+				
+				System.out.println("Client connected from: " + socket.getLocalAddress().getHostName());
+				
+				Thread thread = new Thread(connection);
+				thread.start();
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}

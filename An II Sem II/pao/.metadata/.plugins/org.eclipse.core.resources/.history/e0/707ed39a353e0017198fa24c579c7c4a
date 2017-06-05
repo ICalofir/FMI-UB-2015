@@ -1,0 +1,27 @@
+public class Communication {
+	public enum CommunicationType {
+		SHOW_CONNECTED_USERS,
+		WHISPER_USER,
+		ANNOUNCEMENT,
+		TEXT,
+		INVALID_USERNAME,
+	}
+	
+	public CommunicationType Type;
+	public String Content;
+	
+	public void translateCommunication(String text) {
+		if (text.substring(0, 1).equals("/w")) {
+			this.Type = CommunicationType.WHISPER_USER;
+			this.Content = text.substring(2);
+		} else if (text.substring(0, 1).equals("/a")) {
+			this.Type = CommunicationType.ANNOUNCEMENT;
+			this.Content = text.substring(2);
+		} else if (text.substring(0, 5).equals("/users")) {
+			this.Type = CommunicationType.SHOW_CONNECTED_USERS;
+			this.Content = "";
+		} else {
+			this.Type = 
+		}
+	}
+}

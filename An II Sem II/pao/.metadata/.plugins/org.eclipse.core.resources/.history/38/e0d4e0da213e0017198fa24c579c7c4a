@@ -1,0 +1,23 @@
+import java.io.*;
+import java.net.*;
+
+public class Server {
+	public static void main() {
+		try {
+			ServerSocket serverSocket = new ServerSocket(8000);
+			Socket socket = serverSocket.accept();
+			
+			BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			
+			String message = input.readLine();
+			System.out.println(message);
+			
+			if (message != null) {
+				PrintStream ps = new PrintStream(socket.getOutputStream());
+				ps.println("Am primit mesajul!");
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}

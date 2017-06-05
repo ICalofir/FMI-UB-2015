@@ -1,0 +1,19 @@
+fmod LIST-INT2 is
+	protecting INT .
+	sorts NList List .
+	subsort Int < NList < List .
+	op nil : -> List .
+	op _ _ : Int List -> NList [id: nil] .
+	op pA : List -> List .
+	op pB : List -> Int .
+	var H : Int .
+	var L : List .
+	
+	eq pA(nil) = nil .
+	eq pA(H L) = if (H rem 2) == 1 then H H pA(L)
+		else H pA(L) fi .
+	
+	eq pB(nil) = 0 .
+	eq pB(H L) = if H < 0 then H + pB(L)
+		else 0 + pB(L) fi .
+endfm

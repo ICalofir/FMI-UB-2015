@@ -1,0 +1,56 @@
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.*;
+
+public class Client {
+
+    public static void main(String[] args) {
+        try {
+            Registry registry = LocateRegistry.getRegistry();
+            TicketReservation stub = (TicketReservation) registry.lookup("TicketReservation");
+            
+            while (true) {
+            	System.out.println("\n");
+            	System.out.println("Available options: ");
+                System.out.println("0 - see all available seats");
+    			System.out.println("1 - request a reservation");
+    			System.out.println("2 - see a reservation");
+    			System.out.println("/exit - exit");
+    			System.out.println("\n");
+            	
+            	Scanner scanner = new Scanner(System.in);
+            	String message = scanner.nextLine();
+            	
+            	if (message.length() >= 5 && message.substring(0, 5).equals("/exit")) {
+            		System.out.println("Bye, bye.");
+            		break;
+            	} else if (message.equals("0")) {
+            		System.out.println("Locurile disponibile sunt: " + stub.querySeats());
+            	} else if (message.equals("1")) {
+            		while (true) {
+            			try {
+//            				System.out.println("Introduceti numarul de locuri:");
+            				message = scanner.nextLine()
+            				scanner.next();
+            				break;
+            			} catch (Exception e) {
+//            				System.out.println("Va rugam introduceti un numar.");
+            				continue;
+            			}
+            		}
+            	}
+            }
+            
+            ArrayList<Integer> response = stub.querySeats();
+            System.out.println("Raspunsul tau: " + response);
+            
+            ArrayList<Integer> op = new ArrayList<Integer>();
+            op.add(4);
+            System.out.println(stub.requestReservation(op));
+            
+            System.out.println("dsada" + stub.querySeats());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}

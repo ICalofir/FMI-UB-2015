@@ -1,0 +1,58 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class Client {
+	private static class ChatClient implements Runnable {
+		private Socket socket;
+		private Scanner input;
+		private PrintWriter output;
+		
+		public ChatClient(Socket socket) throws Exception {
+			this.socket = socket;
+			this.input = new Scanner(this.socket.getInputStream());
+			this.output = new PrintWriter(this.socket.getOutputStream());
+		}
+		
+		public void run() {
+			try {
+				checkStream();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		private void checkStream() {
+			while (true) {
+				inputStream();
+			}
+		}
+	}
+	
+	private static Scanner scanner = null;
+	private static Socket socket;
+	private static ChatClient chatClient;
+	public static void main(String[] args) {
+		try {
+			scanner = new Scanner(System.in);
+			
+			final String HOST = "localhost";
+			socket = new Socket(HOST, 8000);
+			System.out.println("You connected to" + HOST + ".");
+			
+			chatClient = new ChatClient(socket);
+			
+			while (true) {
+				System.out.println("Username: ");
+				String username = scanner.nextLine();
+				
+				break;
+			}
+			
+			Thread thread = new Thread(chatClient);
+			thread.start();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}

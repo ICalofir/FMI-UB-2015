@@ -1,0 +1,56 @@
+fmod TREE is
+	protecting INT .
+	sort Tree .
+	op empty : -> Tree .
+	op _ _ _ : Tree Int Tree -> Tree .
+endfm
+
+fmod LIST-INT2 is
+	protecting INT .
+	sorts NList List .
+	subsort Int < NList < List .
+	op nil : -> List .
+	op _ _ : Int List -> NList [id: nil] .
+endfm
+
+fmod MIRROR is
+	protecting TREE .
+	protecting LIST-INT2 .
+	op mirror : Tree -> Tree .
+	op search : Int Tree -> Bool .
+	op depth : Tree -> Int .
+	op SRD : Tree -> List .
+	op RSD : Tree -> List .
+	op SDR : Tree -> List .
+	op bt-insert : NList Tree -> Tree .
+	op btsort : NList -> NList .
+
+	var LI : List .
+	vars L R T : Tree .
+	vars I H HL HT : Int .
+
+	eq mirror(empty) = empty .
+	eq mirror(L I R) = mirror(R) I mirror(L) .
+
+	eq search(I, empty) = false .
+	eq search(I, L H R) = I == H or search(I, L) or search(I, R) .
+
+	eq depth(empty) = 0 .
+	eq depth(L H R) = 1 + max(depth(L), depth(R)) .
+
+	eq SRD(empty) = nil .
+	eq SRD(L H R) = SRD(L) H SRD(R) .
+
+	eq RSD(empty) = nil .
+	eq RSD(L H R) = H RSD(L) RSD(R) .
+
+	eq SDR(empty) = nil .
+	eq SDR(L H R) = SDR(L) SDR(R) H .
+
+	eq bt-insert(HL LI, empty) = bt-insert(LI, empty HL empty) .
+	eq bt-insert(nil, T) = T .
+	ceq bt-insert(HL LI, L HT R) = bt-insert(LI, bt-insert(HL, L) HT R) if HL <= HT .
+	ceq bt-insert(HL LI, L HT R) = bt-insert(LI, L HT bt-insert(HL, R)) if HL > HT .
+
+	eq btsort(LI) = SRD(bt-insert(LI, empty)) .
+endfm

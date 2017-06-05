@@ -1,0 +1,10 @@
+Workshop 10 aprilie 2017 ora 17 sala 223 
+ORACLE DATABASE: TRANSITION TO CLOUD
+Agenda pentru workshop:
+Partea 1:
+- DBCS provisioning
+- connecting with SQL Developer and Putty + SQL*Plus
+- DBCS console overview
+Partea 2:
+- overview APEX + crearea unei aplicatii in APEX
+
