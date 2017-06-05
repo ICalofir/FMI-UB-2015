@@ -6,6 +6,18 @@ SET TAB OFF
 SET PAGESIZE 100
 SET ECHO OFF 
 
+drop table regions cascade constraints;
+drop table countries cascade constraints;
+drop table locations cascade constraints;
+drop table departments cascade constraints;
+drop table jobs cascade constraints;
+drop table employees cascade constraints;
+drop table job_history cascade constraints;
+drop table job_grades cascade constraints;
+drop sequence locations_seq;
+drop sequence departments_seq;
+drop sequence employees_seq;
+
 REM ********************************************************************
 REM Create the REGIONS table to hold region information for locations
 REM HR.LOCATIONS table has a foreign key to this table.
