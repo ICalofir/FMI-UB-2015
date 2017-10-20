@@ -37,3 +37,12 @@
 * Baze de date
 * Retele de calculatoare
 * Metode de dezvoltare software
+
+**An III, sem. I:**
+
+* Concepte si aplicatii in vederea artificiala
+* Programare declarativa
+* Dezvoltarea aplicatiilor web
+* Sisteme de gestiune a bazelor de date
+* Tehnici de simulare
+* Ecuatii diferentiale si derivate partiale
