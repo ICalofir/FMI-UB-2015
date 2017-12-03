@@ -47,11 +47,13 @@ def redimensioneazaImagine(img, params):
                                         culoareDrum)
   elif optiuneRedimenstionare == 'eliminaObiect':
     optiuneEliminareObiect = params.optiuneEliminareObiect
+    imgPath = params.imgPath
     imgRedimensionata = eliminaObiect(img,
                                       metodaSelectareDrum,
                                       ploteazaDrum,
                                       culoareDrum,
-                                      optiuneEliminareObiect)
+                                      optiuneEliminareObiect,
+                                      imgPath)
   else:
     raise Exception("Optiune necunoscuta!")
 

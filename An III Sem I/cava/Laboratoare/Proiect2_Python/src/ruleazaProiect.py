@@ -13,14 +13,15 @@ class Params:
     self.ploteazaDrum = 0
     self.culoareDrum = [255, 0, 0]
     self.metodaSelectareDrum = 'programareDinamica'
-    self.optiuneEliminareObiect = 'dreptunghi'
+    self.optiuneEliminareObiect = 'masca'
+    self.imgPath = '../data/lac.jpg'
 
 
 if __name__ == '__main__':
-  img = cv2.imread('../data/lac.jpg')
-
-  img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
   params = Params()
+
+  img = cv2.imread(params.imgPath)
+  img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
   imgRedimensionata_proiect = redimensioneazaImagine(img, params)
 

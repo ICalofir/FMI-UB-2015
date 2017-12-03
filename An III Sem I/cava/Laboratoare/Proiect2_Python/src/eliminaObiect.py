@@ -79,7 +79,7 @@ def marcheazaMasca(E, mask):
 
   return E
 
-def eliminaObiect(img, metodaSelectareDrum, ploteazaDrum, culoareDrum, optiuneEliminareObiect):
+def eliminaObiect(img, metodaSelectareDrum, ploteazaDrum, culoareDrum, optiuneEliminareObiect, imgPath):
   """
   Elimina un obiect delimitat de utilizator
 
@@ -98,12 +98,13 @@ def eliminaObiect(img, metodaSelectareDrum, ploteazaDrum, culoareDrum, optiuneEl
                                   Valori posibile:
                                     'masca'
                                     'dreptunghi'
+         imgPath - path-ul catre imagine
 
   output: img - imaginea redimensionata obtinuta prin eliminarea obiectului
   """
 
   if optiuneEliminareObiect == 'masca':
-    mask = get_mask('../data/lac.jpg')
+    mask = get_mask(imgPath)
     # opencv reads images in BGR color space
     mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
     # plt.imshow(mask, cmap='gray')
