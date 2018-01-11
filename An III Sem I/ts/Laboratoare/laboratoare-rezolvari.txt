@@ -1,0 +1,358 @@
+*L1*
+
+GENERATE 58
+QUEUE COADA_ROSII
+SEIZE BENZINA
+DEPART COADA_ROSII
+ADVANCE 51
+RELEASE BENZINA
+TERMINATE
+
+GENERATE 50
+QUEUE COADA_ALBE
+SEIZE BENZINA
+DEPART COADA_ALBE
+ADVANCE 51
+RELEASE BENZINA
+TERMINATE 1
+
+
+*L2-1*
+
+apeluri STORAGE 2
+histrogram TABLE M1,100,100,20
+
+GENERATE 100 60
+testAcces GATE SNF apeluri,asteapta
+ENTER apeluri
+ADVANCE 120 60
+LEAVE apeluri 
+
+TABULATE histrogram
+TERMINATE 1
+
+asteapta ADVANCE 300 60
+TRANSFER ,testAcces 
+
+*L2-2*
+
+apeluri STORAGE 2
+histrogram TABLE M1,100,100,20
+
+GENERATE 100 60
+testAcces GATE SNF apeluri,asteapta
+ENTER apeluri
+ADVANCE 120 60
+LEAVE apeluri
+QUEUE linie_speciala
+SEIZE apel_special
+DEPART linie_speciala 
+ADVANCE 120 60
+RELEASE apel_special
+
+
+TABULATE histrogram
+TERMINATE 1
+
+asteapta ADVANCE 300 60
+TRANSFER ,testAcces 
+
+*L2-3*
+
+apeluri STORAGE 3
+linie_interna STORAGE 2
+histrogram TABLE M1,100,100,20
+
+GENERATE 100 60
+testAcces GATE SNF apeluri,asteapta
+ENTER apeluri
+ADVANCE 120 60
+LEAVE apeluri
+
+ENTER linie_interna
+ADVANCE 120 60
+LEAVE linie_interna
+
+
+TABULATE histrogram
+TERMINATE 1
+
+asteapta ADVANCE 300 60
+TRANSFER ,testAcces 
+
+*L3*
+
+depozit STORAGE 2000
+histogram TABLE s$depozit,100,100,20
+unitati_necesare VARIABLE 1000 - s$depozit 
+cerere_zilnica VARIABLE RN1@23+40 
+nivel_initial EQU 1000
+minim_depozit EQU 800
+
+
+GENERATE ,,,1,3
+ENTER depozit nivel_initial 
+TERMINATE
+
+GENERATE 5
+ASSIGN 1,v$unitati_necesare
+TEST L s$depozit,minim_depozit,terminat
+ADVANCE 5
+ENTER depozit p1
+TERMINATE
+terminat TERMINATE 
+
+GENERATE 1
+ASSIGN 2,v$cerere_zilnica
+TABULATE histogram
+TEST GE s$depozit,p2,term
+LEAVE depozit p2
+TERMINATE 1
+term TERMINATE 1
+
+*L4*
+
+histo_revizie QTABLE coada_revizie,10,10,20
+histo_reparatie_scurta QTABLE coada_reparatie_scurta,10,10,20
+histo_reparatie_lunga QTABLE coada_reparatie_lunga,10,10,20
+histo_toti QTABLE coada_toti,10,10,20
+
+GENERATE 2400,480,,,1
+QUEUE coada_revizie
+QUEUE coada_toti
+SEIZE angajat
+DEPART coada_revizie
+DEPART coada_toti
+ADVANCE 600,60
+RELEASE angajat
+TERMINATE 
+
+GENERATE 90,10,,,3
+QUEUE coada_reparatie_scurta
+QUEUE coada_toti
+PREEMPT angajat,PR
+DEPART coada_reparatie_scurta
+DEPART coada_toti
+ADVANCE 15,5
+RETURN angajat
+TERMINATE
+
+GENERATE 300,60,,,2
+QUEUE coada_reparatie_lunga
+QUEUE coada_toti
+PREEMPT angajat,PR
+DEPART coada_reparatie_lunga
+DEPART coada_toti
+ADVANCE 120,30
+RETURN angajat
+TERMINATE
+
+GENERATE 480
+TERMINATE 1
+
+*L5*
+
+histo TABLE m1,100,100,20 
+robot STORAGE 2
+
+GENERATE (Exponential(1,0,50))
+
+QUEUE componente1
+ENTER robot
+DEPART componente1
+ADVANCE 8,1
+ADVANCE 6
+ADVANCE 8,1
+LEAVE robot
+
+QUEUE prima_masina_q
+SEIZE prima_masina
+DEPART prima_masina_q
+ADVANCE (Normal(1,60,10))
+RELEASE prima_masina
+
+QUEUE componente2
+ENTER robot
+DEPART componente2
+ADVANCE 8,1
+ADVANCE 7
+ADVANCE 8,1
+LEAVE robot
+
+QUEUE a_doua_masina_q
+SEIZE a_doua_masina
+DEPART a_doua_masina_q
+ADVANCE (Exponential(1,0,100))
+RELEASE a_doua_masina
+
+QUEUE componente3
+ENTER robot
+DEPART componente3
+ADVANCE 8,1
+ADVANCE 5
+ADVANCE 8,1
+LEAVE robot
+
+TABULATE histo
+TERMINATE 1
+
+*L6*
+
+histo TABLE M1,100,100,20
+
+
+proces_1 FUNCTION RN1,D7
+0,0/0.05,10/0.18,14/0.34,21/0.56,32/0.85,38/1,45
+
+GENERATE (Exponential(1,0,30))
+
+inapoi1 ASSIGN 1,FN$proces_1
+
+QUEUE masina1
+SEIZE masina1
+ADVANCE p1
+RELEASE masina1
+DEPART masina1
+ADVANCE 2
+TRANSFER 0.2,,reprelucrare
+
+inapoi2 QUEUE masina2
+SEIZE masina2
+ADVANCE 15,6
+RELEASE masina2
+DEPART masina2
+ADVANCE 2
+TRANSFER 0.15,,reprelucrare2
+
+inapoi3 QUEUE masina3
+SEIZE masina3
+ADVANCE (Normal(1,24,4))
+RELEASE masina3
+DEPART masina3
+ADVANCE 2
+TRANSFER 0.05,,reprelucrare3
+
+
+TABULATE histo
+TERMINATE 1
+
+
+reprelucrare TRANSFER 0.4,,inapoi1
+TERMINATE
+
+reprelucrare2 TRANSFER 0.4,,inapoi2
+TERMINATE
+
+reprelucrare3 TRANSFER 0.4,,inapoi3
+TERMINATE
+
+
+*L7*
+
+histo_timp_livr TABLE M1,.015,.015,20
+histo_nr_ceasuri TABLE X1,100,100,20
+
+cant_ceasuri FUNCTION RN1,D8
+0,0/0.10,6/0.35,12/0.65,18/0.8,24/0.92,30/0.96,36/1,48
+
+timp_impachetare VARIABLE 0.0334+p1#0.0028
+niv_depozit EQU 1000
+depozit STORAGE 4000
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+GENERATE (Exponential(1,0,0.25))
+ASSIGN 1,1,cant_ceasuri
+TEST GE S$depozit,p1,stocindisp
+LEAVE depozit,p1
+QUEUE qimpachetare
+SEIZE masina
+DEPART qimpachetare
+ADVANCE V$timp_impachetare
+RELEASE masina
+SAVEVALUE 1+,p1
+TABULATE histo_timp_livr
+TERMINATE 
+
+stocindisp TERMINATE
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+GENERATE 0.75,0.08334,1
+ENTER depozit 60
+TERMINATE
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+GENERATE 8
+SAVEVALUE 1,0
+TABULATE histo_nr_ceasuri
+TERMINATE 1
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+GENERATE ,,,1,5
+ENTER depozit niv_depozit
+TERMINATE
+ 
+*L8*
+
+storage1 STORAGE 5
+storage2 STORAGE 40
+storage3 STORAGE 8
+
+INITIAL X$initialdep1,50
+INITIAL X$initialdep2,25
+INITIAL X$initialdep3,25
+
+depozit1 TABLE X$initialdep1,20,20,20
+depozit2 TABLE X$initialdep2,20,20,20
+depozit3 TABLE X$initialdep3,20,20,20
+
+GENERATE 0.334
+QUEUE dep1
+ENTER storage1
+DEPART dep1
+ADVANCE 0.6333
+LEAVE storage1
+SAVEVALUE initialdep1+,1
+
+QUEUE dep2
+ENTER storage2
+DEPART dep2
+ADVANCE 5.334
+LEAVE storage2
+
+ADVANCE 0.05
+SAVEVALUE initialdep1-,1
+SAVEVALUE initialdep2+,1
+
+QUEUE dep3
+ENTER storage3
+DEPART dep3
+ADVANCE 1.066
+LEAVE storage3
+
+ADVANCE 0.05
+SAVEVALUE initialdep2-,1
+SAVEVALUE initialdep3+,1
+TERMINATE 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+GENERATE 8
+TABULATE depozit1
+TABULATE depozit2
+TABULATE depozit3
+TERMINATE 1
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+GENERATE 16
+TEST GE X$initialdep3,50 nuscot
+SAVEVALUE initialdep3-,50
+TERMINATE
+
+nuscot TERMINATE
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
