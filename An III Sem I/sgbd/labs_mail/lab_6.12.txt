@@ -1,0 +1,143 @@
+--pachete lab5
+--ex1
+CREATE sequence idEmployeeSecv START with 1;
+  -------------------------------------------------------------------------------
+CREATE OR REPLACE PACKAGE pack_tfo
+IS
+  PROCEDURE addEmployee(
+      nume employees.last_name%type,
+      prenume employees.first_name%type,
+      telefon employees.phone_number%type,
+      email employees.email%type,
+      numeMan employees.last_name%type,
+      prenumeMan employees.first_name%type,
+      numeDept departments.department_name%type,
+      numeJob jobs.job_title%type );
+  PROCEDURE moveEmployee(
+      nume employees.last_name%type,
+      prenume employees.first_name%type ,
+      numeDept departments.department_name%type,
+      numeJob employees.job_id%type ,
+      numeMan employees.last_name%type,
+      prenumeMan employees.first_name%type);
+END pack_tfo;
+/
+CREATE OR REPLACE PACKAGE body pack_tfo
+IS
+  FUNCTION getCodJob(
+      numeJob jobs.job_id%type)
+    RETURN employees.job_id%type
+  IS
+    codJob employees.job_id%type;
+  BEGIN
+    SELECT job_id INTO codJob FROM jobs WHERE job_title = numeJob;
+    RETURN codJob;
+  END;
+-------------------------------------------------------------------------------
+  FUNCTION getCodDepartament(
+      numeDept departments.department_name%type)
+    RETURN employees.department_id%type
+  IS
+    codDepartament employees.department_id%type;
+  BEGIN
+    SELECT department_id
+    INTO codDepartament
+    FROM departments
+    WHERE department_name = numeDept;
+    dbms_output.put_line(codDepartament);
+    RETURN codDepartament;
+  END;
+-------------------------------------------------------------------------------
+  FUNCTION getManager(
+      nume employees.last_name%type,
+      prenume employees.first_name%type)
+    RETURN employees.employee_id%type
+  IS
+    managerId employees.employee_id%type;
+  BEGIN
+    SELECT employee_id
+    INTO managerId
+    FROM employees
+    WHERE last_name = nume
+    AND first_name  = prenume;
+    RETURN managerId;
+  END;
+-------------------------------------------------------------------------------
+  FUNCTION getSalariu(
+      deptId employees.department_id%type,
+      jobId employees.job_id%type)
+    RETURN employees.salary%type
+  IS
+    salariuMinim employees.salary%type;
+  BEGIN
+    SELECT MIN(salary)
+    INTO salariuMinim
+    FROM employees
+    WHERE department_id = deptId
+    AND job_id          = jobId;
+    RETURN salariuMinim;
+  END;
+-------------------------------------------------------------------------------
+  PROCEDURE addEmployee(
+      nume employees.last_name%type,
+      prenume employees.first_name%type,
+      telefon employees.phone_number%type,
+      email employees.email%type,
+      numeMan employees.last_name%type,
+      prenumeMan employees.first_name%type,
+      numeDept departments.department_name%type,
+      numeJob jobs.job_title%type)
+  IS
+    salariuMinim employees.salary%type;
+    codManager employees.employee_id%type;
+    codDepartament employees.department_id%type;
+    codJob employees.job_id%type;
+  BEGIN
+    codManager     := getManager(numeMan,prenumeMan);
+    codDepartament := getCodDepartament(numeDept);
+    codJob         := getCodJob(numeJob);
+    salariuMinim   := getSalariu(codDepartament,codJob);
+    dbms_output.put_line(idEmployeeSecv.nextval || ' ' || codManager || '' || codDepartament || '' || codJob || '' || salariuMinim);
+  END;
+  PROCEDURE moveEmployee(
+      nume employees.last_name%type,
+      prenume employees.first_name%type ,
+      numeDept departments.department_name%type,
+      numeJob employees.job_id%type ,
+      numeMan employees.last_name%type,
+      prenumeMan employees.first_name%type)
+  IS
+    idDept departments.department_id%type;
+    codJob employees.job_id%type;
+    codManager employees.employee_id%type;
+    salariuMinim employees.salary%type;
+    codDepartament employees.department_id%type;
+  BEGIN
+    codDepartament := getCodDepartament(numeDept);
+  dbms_output.put_line('1');
+    codJob         := getCodJob(numeJob);
+  dbms_output.put_line('2');
+    codManager     := getManager(numeMan,prenumeMan);
+  dbms_output.put_line('3');
+    salariuMinim   := getSalariu(codDepartament,codJob);
+  dbms_output.put_line(salariuMinim);
+    select salary into salariuMinim from employees where first_name = prenumeMan
+    and last_name = numeMan and salary >= salariuMinim;
+    dbms_output.put_line(salariuMinim);
+  END;
+END pack_tfo;
+/
+--#############################################################################
+--apelul procedurilor din pachet
+BEGIN
+
+ pack_tfo.moveEmployee(
+      'King',
+      'Steven',
+      'Purchasing',
+      'Purchasing Clerk' ,
+      'King',
+      'Janette');
+  --pack_tfo.addEmployee('geatheth','Asdf','0499201000','asdwgaethfWRTFG','King','Steven','IT','Programmer');
+END;
+/

@@ -1,0 +1,151 @@
+--cursor clasic
+
+declare
+  cursor C is (select * from employees);
+  angajati employees%rowtype;
+
+begin
+  open C;
+    loop
+    fetch C into angajati;
+    exit when C%notfound;
+    dbms_output.put_line(angajati.employee_id||' '||angajati.first_name);
+    
+    end loop;
+  close C;
+end;
+/
+
+
+
+
+--cursor clasic cu parametru
+declare
+  cursor C(eid employees.employee_id%type) is 
+          (select * from employees
+           where employee_id = eid);
+  angajati employees%rowtype;
+
+begin
+  open C(100);
+    loop
+    fetch C into angajati;
+    exit when C%notfound;
+    dbms_output.put_line(angajati.employee_id||' '||angajati.first_name);
+    
+    end loop;
+  close C;
+end;
+/
+
+
+
+
+
+--cursor ciclu
+declare
+  cursor C is (select * from employees );
+  angajati employees%rowtype;
+
+begin
+  for i in C loop
+    --if C%isopen then 
+    -- dbms_output.put_line(i.employee_id||' este deschis');
+    dbms_output.put_line(i.employee_id||' '||i.salary);
+   -- end if;
+  end loop;
+
+end;
+/
+
+
+
+--cursor ciclu cu subcereri
+
+begin
+  for i in (select * from employees) loop
+    dbms_output.put_line(i.employee_id||' '||i.salary);
+  end loop;
+
+end;
+/
+
+
+--variabile ref cursor
+declare
+  type refc is ref cursor;
+  angajati refc;
+  angajat employees%rowtype;
+
+begin
+  open angajati for select * from employees;
+  loop
+    fetch angajati into angajat;
+    exit when angajati%notfound;
+     dbms_output.put_line(angajat.first_name||' '||angajat.last_name);
+  
+  
+  end loop;
+  close angajati;
+
+end;
+/
+
+
+
+--ex 1
+--b)
+declare 
+  cursor joburi is (select job_id,job_title from jobs);
+  cursor angajati(jid jobs.job_id%type) is (
+      select first_name,last_name
+      from employees
+      where job_id=jid);
+
+begin
+  for i in joburi loop
+    dbms_output.put_line(i.job_title);
+    dbms_output.put_line('-----------');
+      for j in angajati(i.job_id) loop
+      dbms_output.put_line(angajati%rowcount||' '||j.first_name||' '||j.last_name);
+      
+      end loop;
+    end loop;
+
+
+end;
+/
+
+--ex1
+--d)
+
+--
+declare
+  type refcursor is ref cursor;
+  cursor c_dept is
+  select job_title,
+         cursor (select first_name,last_name
+                 from employees e
+                 where e.job_id=j.job_id)
+        from jobs j;
+  v_cursor refcursor;
+  v_title jobs.job_title%type;
+  type t is record (fn employees.first_name%type,ln employees.last_name%type);
+  angajati t;
+begin
+  open c_dept;
+  loop
+  fetch c_dept into v_title,v_cursor;
+  exit when c_dept%notfound;
+    dbms_output.put_line(v_title);
+    dbms_output.put_line('-----------');
+    loop 
+      fetch v_cursor into angajati;
+      exit when v_cursor%notfound;
+      dbms_output.put_line(v_cursor%rowcount||' '||angajati.fn||' '||angajati.ln);
+    end loop;
+  
+  end loop;
+
+end;
+/

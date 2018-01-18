@@ -1,0 +1,212 @@
+DECLARE 
+cont NUMBER := 1;
+val NUMBER := 0;
+numarAng Number := 0;
+ValoareTol Number := 0;
+----------------------------
+--- Exe 2 
+----------------------------
+BEGIN
+  FOR jb IN (SELECT job_id,job_title FROM jobs ) loop
+    dbms_output.new_line;
+    dbms_output.put_line(jb.job_title);
+    FOR anga IN (SELECT first_name,last_name,salary,commission_pct FROM employees WHERE job_id = jb.job_id) loop
+      dbms_output.put_line(cont ||' '|| anga.first_name || ' ' || anga.last_name);
+      cont := cont + 1;
+      val := val + anga.salary;
+    END loop; 
+    IF cont > 1 then
+      cont := cont - 1;
+    end if;
+    numarAng := numarAng + cont;
+    ValoareTol := ValoareTol + val;
+    dbms_output.put_line('Numar de angajati = ' || cont );
+    dbms_output.put_line('Valoare Lunara = ' || val);
+    dbms_output.put_line('Valoare medie = ' || val/cont);
+    dbms_output.new_line;
+    cont:=1;
+    val := 0;
+  END loop;
+  dbms_output.put_line('Numar total de angajati = ' || numarAng );
+  dbms_output.put_line('Valoare Lunara toti angajati = ' || ValoareTol );
+  dbms_output.put_line('Valoare Lunara medie = ' || ValoareTol/numarAng );
+END;
+/
+
+
+------------------------------------------------------------------------
+
+
+DECLARE 
+cont NUMBER := 1;
+val NUMBER := 0;
+numarAng Number := 0;
+ValoareTol Number := 0;
+SumaTotala NUMBER := 0;
+---------------------------------
+--- Exe 3 
+--------------------------------
+BEGIN
+  FOR jb IN (SELECT job_id,job_title FROM jobs ) loop
+    FOR salCom IN (SELECT salary,commission_pct FROM employees WHERE job_id = jb.job_id) loop
+      if salCom.commission_pct is NULL then
+      SumaTotala := SumaTotala + salCom.salary ;
+      else
+      SumaTotala := SumaTotala + ((1+salCom.commission_pct)*salCom.salary);
+    END IF;
+    end loop;
+    end loop;
+    FOR jb IN (SELECT job_id,job_title FROM jobs ) loop
+    dbms_output.new_line;
+    dbms_output.put_line(jb.job_title);
+    FOR anga IN (SELECT first_name,last_name,salary,commission_pct FROM employees WHERE job_id = jb.job_id) loop
+      dbms_output.put_line(cont ||' '|| anga.first_name || ' ' || anga.last_name || 'Val: ' || anga.salary/SumaTotala);
+      cont := cont + 1;
+      val := val + anga.salary;
+    END loop; 
+    IF cont > 1 then
+      cont := cont - 1;
+    end if;
+    numarAng := numarAng + cont;
+    ValoareTol := ValoareTol + val;
+    dbms_output.put_line('Numar de angajati = ' || cont );
+    dbms_output.put_line('Valoare Lunara = ' || val);
+    dbms_output.put_line('Valoare medie = ' || val/cont);
+    dbms_output.new_line;
+    cont:=1;
+    val := 0;
+  END loop;
+  dbms_output.put_line('Numar total de angajati = ' || numarAng );
+  dbms_output.put_line('Valoare Lunara toti angajati = ' || ValoareTol );
+  dbms_output.put_line('Valoare Lunara medie = ' || ValoareTol/numarAng );
+  dbms_output.put_line('Suma Totala alocata = ' || SumaTotala );
+END;
+/
+
+---------------------------------------------
+-- Exe 4
+---------------------------------------------
+
+DECLARE 
+cont NUMBER := 1;
+val NUMBER := 0;
+numarAng Number := 0;
+ValoareTol Number := 0;
+SumaTotala NUMBER := 0;
+cont2 Number := 0;
+--- Exe 2 complet 
+BEGIN
+  FOR jb IN (SELECT job_id,job_title FROM jobs ) loop
+    FOR salCom IN (SELECT salary,commission_pct FROM employees WHERE job_id = jb.job_id) loop
+      if salCom.commission_pct is NULL then
+      SumaTotala := SumaTotala + salCom.salary ;
+      else
+      SumaTotala := SumaTotala + ((1+salCom.commission_pct)*salCom.salary);
+    END IF;
+    end loop;
+    end loop;
+    FOR jb IN (SELECT job_id,job_title FROM jobs ) loop
+    dbms_output.new_line;
+    dbms_output.put_line(jb.job_title);
+    FOR anga IN (SELECT first_name,last_name,salary,commission_pct FROM employees WHERE job_id = jb.job_id order by salary) loop
+      dbms_output.put_line(cont ||' '|| anga.first_name || ' ' || anga.last_name || 'Val: ' || anga.salary/SumaTotala);
+      cont := cont + 1;
+      cont2 := cont2 + 1;
+      val := val + anga.salary;
+    if cont2 = 5 then  EXIT ;
+    end if;
+    END loop; 
+    if cont2 < 5 then  
+    dbms_output.put_line('Acest job are mai putin de 5 angajati');
+    end if;
+    
+    IF cont > 1 then
+      cont := cont - 1;
+    end if;
+    numarAng := numarAng + cont;
+    ValoareTol := ValoareTol + val;
+    dbms_output.put_line('Numar de angajati = ' || cont );
+    dbms_output.put_line('Valoare Lunara = ' || val);
+    dbms_output.put_line('Valoare medie = ' || val/cont);
+    dbms_output.new_line;
+    cont :=1;
+    cont2 := 0;
+    val := 0;
+  END loop;
+  dbms_output.put_line('Numar total de angajati = ' || numarAng );
+  dbms_output.put_line('Valoare Lunara toti angajati = ' || ValoareTol );
+  dbms_output.put_line('Valoare Lunara medie = ' || ValoareTol/numarAng );
+  dbms_output.put_line('Suma Totala alocata = ' || SumaTotala );
+END;
+/
+
+
+-----------------------------------
+-- EXE 5 
+-----------------------------------
+DECLARE 
+cont NUMBER := 1;
+val NUMBER := 0;
+numarAng Number := 0;
+ValoareTol Number := 0;
+SumaTotala NUMBER := 0;
+cont2 Number := 0;
+valAnt Number :=0;
+cont3 Number := 0;-- True sau false
+--- Exe 2 complet 
+BEGIN
+  FOR jb IN (SELECT job_id,job_title FROM jobs ) loop
+    FOR salCom IN (SELECT salary,commission_pct FROM employees WHERE job_id = jb.job_id) loop
+      if salCom.commission_pct is NULL then
+      SumaTotala := SumaTotala + salCom.salary ;
+      else
+      SumaTotala := SumaTotala + ((1+salCom.commission_pct)*salCom.salary);
+    END IF;
+    end loop;
+    end loop;
+    FOR jb IN (SELECT job_id,job_title FROM jobs ) loop
+    dbms_output.new_line;
+    dbms_output.put_line(jb.job_title);
+    FOR anga IN (SELECT first_name,last_name,salary,commission_pct FROM employees WHERE job_id = jb.job_id order by salary) loop
+      cont := cont + 1;
+      if cont3 = 0 then 
+        valAnt := anga.salary;
+        cont3 := 1;
+      end if;
+     if cont3 = 1 then
+       if anga.salary <> valAnt then
+        cont2 := cont2 + 1;
+        dbms_output.put_line(cont-1 ||' '|| anga.first_name || ' ' || anga.last_name || ' Val: ' || anga.salary/SumaTotala || ' Salariu = ' || anga.salary);
+        valAnt := anga.salary;
+       else 
+       dbms_output.put_line(cont-1 ||' '|| anga.first_name || ' ' || anga.last_name || ' Val: ' || anga.salary/SumaTotala || ' Salariu = ' || anga.salary);
+       end if;
+     end if;
+      val := val + anga.salary;
+    if cont2 = 5 then  EXIT ;
+    end if;
+    END loop; 
+    cont3 := 1;
+    if cont2 < 5 then  
+    dbms_output.put_line('Acest job are mai putin de 5 angajati');
+    end if;
+    
+    IF cont > 1 then
+      cont := cont - 1;
+    end if;
+    numarAng := numarAng + cont;
+    ValoareTol := ValoareTol + val;
+    dbms_output.put_line('Numar de angajati = ' || cont );
+    dbms_output.put_line('Valoare Lunara = ' || val);
+    dbms_output.put_line('Valoare medie = ' || val/cont);
+    dbms_output.new_line;
+    cont :=1;
+    cont2 := 0;
+    val := 0;
+  END loop;
+  dbms_output.put_line('Numar total de angajati = ' || numarAng );
+  dbms_output.put_line('Valoare Lunara toti angajati = ' || ValoareTol );
+  dbms_output.put_line('Valoare Lunara medie = ' || ValoareTol/numarAng );
+  dbms_output.put_line('Suma Totala alocata = ' || SumaTotala );
+END;
+/

@@ -1,0 +1,31 @@
+DECLARE 
+cont NUMBER := 1;
+val NUMBER := 0;
+numarAng Number := 0;
+ValoareTol Number := 0;
+BEGIN
+  FOR jb IN (SELECT job_id,job_title FROM jobs ) loop
+    dbms_output.new_line;
+    dbms_output.put_line(jb.job_title);
+    FOR anga IN (SELECT first_name,last_name,salary FROM employees WHERE job_id = jb.job_id) loop
+      dbms_output.put_line(cont ||' '|| anga.first_name || ' ' || anga.last_name);
+      cont := cont + 1;
+      val := val + anga.salary;
+    END loop; 
+    IF cont > 1 then
+      cont := cont - 1;
+    end if;
+    numarAng := numarAng + cont;
+    ValoareTol := ValoareTol + val;
+    dbms_output.put_line('Numar de angajati = ' || cont );
+    dbms_output.put_line('Valoare Lunara = ' || val);
+    dbms_output.put_line('Valoare medie = ' || val/cont);
+    dbms_output.new_line;
+    cont:=1;
+    val := 0;
+  END loop;
+  dbms_output.put_line('Numar total de angajati = ' || numarAng );
+  dbms_output.put_line('Valoare Lunara toti angajati = ' || ValoareTol );
+  dbms_output.put_line('Valoare Lunara medie = ' || ValoareTol/numarAng );
+END;
+/

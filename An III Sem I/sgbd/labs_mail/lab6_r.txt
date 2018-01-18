@@ -1,0 +1,3 @@
+http://www.dba-oracle.com/t_avoiding_mutating_table_error.htm
+
+https://docs.oracle.com/cloud/latest/db112/LNPLS/triggers.htm#LNPLS770
