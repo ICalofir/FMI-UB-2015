@@ -1,0 +1,42 @@
+Examen sgbd
+- 5-6 subiecte
+- o intrebare de teorie de maxim doua puncte, ceva scurt
+- subiecte ca la testul de laborator dar mai grele
+- poti da examenul la sgbd si fara sa iei testul de lab
+- 2 ore
+- “incercam sa corectam pe loc”
+Posibile subiecte
+- Fisierul 2
+- ce e pl/sql
+- unde se afla motorul pl/sql
+- Fisierul 3
+- cam tot, ca e cod
+- Fisierul 4
+- nu avem boolean in sql
+- tipurile basic
+- fara ref cursor
+- conversii
+- % type
+- indexed by table nu e stocabil
+- metodele de la 4.2.3 - cele clasice
+- fara colectii pe mai multe metode
+- 4.2.9 sigur
+- 4.2.10 “bun de teorie” + 4.2.11
+- Fisierul 5
+- fara cursoare dinamice
+- 5.2.3 tot spre teorie
+- Fisierul 6
+- ! select function from dual doar daca intoarce un tip sql, nu are parametri out. e mai safe cu un bloc
+- fara functii overload, recursivitate
+- fara autentificare
+- cu exceptii
+- select into genereaza exceptii (to many rows sau no data found - singurele importante; nu apar cand avem bulk collect)
+- daca vrem ne putem face propriile exceptii
+- Fisierul 7
+- ce poate contine un pachet
+- de ce avem nevoie de ele
+- in pachete nu se includ triggere
+- Triggeri - tot, fara privilegii
+- Structura BD - chestii de baza ish
+- Arhitectura - chestii de baza ish
+- Fara 12, 13
