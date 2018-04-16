@@ -1,0 +1,352 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Program_III_1</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-04-11"><meta name="DC.source" content="Program_III_1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">%Calculul Jacobianului simbolic</a></li><li><a href="#3">%Reprezentarea grafica a curbelor care descriu sistemul</a></li><li><a href="#4">%Afisare F si J</a></li><li><a href="#5">% Rezolvarea sistemului neliniar prin metoda Newton</a></li><li><a href="#6">%Definirea functiei Jacobian calculat simbolic</a></li><li><a href="#7">%Definirea functiei F care descrie sistemul neliniar</a></li><li><a href="#8">%Metoda Newton pentru rezolvarea sistemelor neliniare</a></li><li><a href="#9">%Metoda Gauss cu pivotare totala pentru rezolvarea sistemelor liniare</a></li><li><a href="#10">%Metoda substitutiei descendente pentru rezolvarea sistemelor de ecuatii inferior triunghiulare</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> Program_III_1
+</pre><h2>%Calculul Jacobianului simbolic<a name="2"></a></h2><pre class="codeinput">x = sym(<span class="string">'x'</span>,[2,1]); <span class="comment">%declararea variabilei simbolice x de forma unui vector</span>
+<span class="comment">%cu doua componente</span>
+J = jacobian(F(x),x); <span class="comment">%Functia F este declarata la final si are</span>
+<span class="comment">%ca parametru de iesire un vector cu doua componente si ca parametru</span>
+<span class="comment">%de intrare un vector cu doua componente</span>
+
+<span class="comment">%J este o matrice ale carei componente sunt expresii simbolice care</span>
+<span class="comment">%reprezinta derivatele partiale ale functiei F = [F1,F2] in raport cu</span>
+<span class="comment">%variabilele x = x(1) si y = x(2)</span>
+</pre><h2>%Reprezentarea grafica a curbelor care descriu sistemul<a name="3"></a></h2><pre class="codeinput"><span class="comment">%Prima curba reprezinta cercul centrat in origine si de raza 2</span>
+<span class="comment">%Vom reprezenta grafic cercul dat prin ecuatiile sale parametrice</span>
+t = linspace(0,2*pi,500);
+R = 2;
+Xcerc = R*cos(t);
+Ycerc = R*sin(t);
+plot(Xcerc,Ycerc,<span class="string">'Linewidth'</span>,3)
+axis <span class="string">equal</span>
+grid <span class="string">on</span>
+<span class="comment">% Cea de-a doua curba reprezinta parabola y = x^2/8</span>
+Xparab = linspace(0,2*R,500);
+Yparab = Xparab.^2/8.0;
+hold <span class="string">on</span>
+plot(Xparab, Yparab,<span class="string">'linewidth'</span>,3)
+</pre><img vspace="5" hspace="5" src="Program_III_1_01.png" alt=""> <h2>%Afisare F si J<a name="4"></a></h2><pre class="codeinput">fprintf(<span class="string">'Functia care descrie sistemul neliniar este:\n'</span>)
+disp(F(x))
+fprintf(<span class="string">'Jacobianul functiei F este:\n'</span>)
+disp(J)
+</pre><pre class="codeoutput">Functia care descrie sistemul neliniar este:
+ x1^2 + x2^2 - 4
+     x1^2 - 8*x2
+ 
+Jacobianul functiei F este:
+[ 2*x1, 2*x2]
+[ 2*x1,   -8]
+ 
+</pre><h2>% Rezolvarea sistemului neliniar prin metoda Newton<a name="5"></a></h2><pre class="codeinput">x0 = [1 1]; <span class="comment">%Alegem valori initiale din vecinatatea punctului de intersectie,</span>
+<span class="comment">%de exemplu (x,y) = (1,1).</span>
+eps = 10^(-6);
+<span class="comment">%Calcularea solutiei aproximative prin apelarea procedurii Newton.m</span>
+[xaprox, N] = Newton(@F, @Jacobian,x0,eps);
+fprintf(<span class="string">'Solutia sistemului neliniar este:\n'</span>)
+format <span class="string">long</span>
+disp(xaprox)
+fprintf(<span class="string">'Numarul necesar de iteratii pentru obtinerea solutiei cu eroarea %f este:\n'</span>,eps)
+disp(N)
+<span class="comment">%Reprezentarea grafica a solutiei sistemului</span>
+plot(xaprox(1), xaprox(2),<span class="string">'ok'</span>,<span class="string">'MarkerSize'</span>,10,<span class="string">'MarkerFaceColor'</span>,<span class="string">'r'</span>)
+<span class="comment">%Reprezentarea grafica a valorii initiale</span>
+plot(x0(1),x0(2),<span class="string">'ok'</span>,<span class="string">'MarkerSize'</span>,10,<span class="string">'MarkerFaceColor'</span>,<span class="string">'k'</span>)
+
+openfig(<span class="string">'Fig1.fig'</span>);
+</pre><pre class="codeoutput">Solutia sistemului neliniar este:
+   1.943473087026597   0.472135954999579
+
+Numarul necesar de iteratii pentru obtinerea solutiei cu eroarea 0.000001 este:
+     5
+
+</pre><img vspace="5" hspace="5" src="Program_III_1_02.png" alt=""> <img vspace="5" hspace="5" src="Program_III_1_03.png" alt=""> <h2>%Definirea functiei Jacobian calculat simbolic<a name="6"></a></h2><pre class="codeinput"><span class="keyword">function</span> J = Jacobian(x)
+x1 = x(1);
+x2 = x(2);
+J = [ 2*x1, 2*x2;  2*x1,   -8];<span class="comment">%Expresia pentru J se copiaza din Comand Window,</span>
+<span class="comment">%sau se introduce manual</span>
+<span class="keyword">end</span>
+</pre><h2>%Definirea functiei F care descrie sistemul neliniar<a name="7"></a></h2><pre class="codeinput"><span class="comment">%F are ca parametru de intrare vectorul x cu doua componente si</span>
+<span class="comment">%ca parametru de iesire vectorul F cu doua componente</span>
+<span class="keyword">function</span> F = F(x)
+F1 = x(1)^2 + x(2)^2 -4;<span class="comment">% x(1) = x, x(2) = y</span>
+F2 = x(1)^2-8*x(2);
+F=[F1;F2];
+<span class="keyword">end</span>
+</pre><h2>%Metoda Newton pentru rezolvarea sistemelor neliniare<a name="8"></a></h2><pre class="codeinput"><span class="keyword">function</span> [xaprox,N] =  Newton(F,J,x0,eps)
+k = 0;
+cond = 1;
+x = x0;
+<span class="keyword">while</span> cond
+    k = k+1;
+    z = GaussPivTotala(J(x),-F(x)); <span class="comment">%x = x(k-1), z = z(k);</span>
+    x = x + z;
+    <span class="keyword">if</span> norm(z,2)&lt;eps
+        cond = 0;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+xaprox = x; N = k;
+<span class="keyword">end</span>
+</pre><h2>%Metoda Gauss cu pivotare totala pentru rezolvarea sistemelor liniare<a name="9"></a></h2><pre class="codeinput"><span class="keyword">function</span> [x]=GaussPivTotala(A,b)
+A=[A,b];<span class="comment">% Matricea extinsa</span>
+n=size(A,1);
+xindice=1:n;<span class="comment">%Numerotare initiala necunoscute</span>
+<span class="keyword">for</span> k=1:n-1
+    <span class="comment">%Calcul maxim</span>
+    max=abs(A(k,k));
+    p = k; m = k;
+    <span class="keyword">for</span> i  = k:n
+        <span class="keyword">for</span> j = k:n
+            <span class="keyword">if</span> abs(A(i,j))&gt; max
+                max=abs(A(i,j));
+                p = i; m = j;
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> A(p,m) == 0
+        display(<span class="string">'Sist. incomp. sau comp. nedet.'</span>);
+        <span class="keyword">return</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> p~=k
+       A([p,k],:) = A([k,p],:);
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> m~=k
+        A(:,[m,k]) = A(:,[k,m]);
+        xindice([m,k]) = xindice([k,m]);  <span class="comment">%Schimbare numerotare  necunoscute</span>
+    <span class="keyword">end</span>
+    <span class="keyword">for</span> l=k+1:n
+        A(l,:) = A(l,:)-A(l,k)/A(k,k)*A(k,:);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="keyword">if</span> A(n,n) == 0
+   display(<span class="string">'Sist. incomp. sau comp. nedet.'</span>)
+   <span class="keyword">return</span>
+<span class="keyword">end</span>
+xschimbat=SubsDesc(A(1:n,1:n),A(:,n+1));
+<span class="keyword">for</span> i = 1:n
+    x(xindice(i)) = xschimbat(i); <span class="comment">%Revenire numerotare initiala</span>
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><h2>%Metoda substitutiei descendente pentru rezolvarea sistemelor de ecuatii inferior triunghiulare<a name="10"></a></h2><pre class="codeinput"><span class="keyword">function</span> [x]=SubsDesc(A,b)
+n=length(b);
+x(n)=b(n)/A(n,n);
+k=n-1;
+<span class="keyword">while</span> k&gt;0
+    sum=0;
+    <span class="keyword">for</span> j=k+1:n
+        sum=sum+A(k,j)*x(j);
+    <span class="keyword">end</span>
+    x(k)=1/A(k,k)*(b(k)-sum);
+    k=k-1;
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function Program_III_1
+%% %Calculul Jacobianului simbolic
+x = sym('x',[2,1]); %declararea variabilei simbolice x de forma unui vector
+%cu doua componente
+J = jacobian(F(x),x); %Functia F este declarata la final si are
+%ca parametru de iesire un vector cu doua componente si ca parametru 
+%de intrare un vector cu doua componente
+
+%J este o matrice ale carei componente sunt expresii simbolice care
+%reprezinta derivatele partiale ale functiei F = [F1,F2] in raport cu 
+%variabilele x = x(1) si y = x(2)
+
+%% %Reprezentarea grafica a curbelor care descriu sistemul
+%Prima curba reprezinta cercul centrat in origine si de raza 2
+%Vom reprezenta grafic cercul dat prin ecuatiile sale parametrice
+t = linspace(0,2*pi,500);
+R = 2;
+Xcerc = R*cos(t);
+Ycerc = R*sin(t);
+plot(Xcerc,Ycerc,'Linewidth',3)
+axis equal
+grid on
+% Cea de-a doua curba reprezinta parabola y = x^2/8
+Xparab = linspace(0,2*R,500);
+Yparab = Xparab.^2/8.0;
+hold on
+plot(Xparab, Yparab,'linewidth',3)
+
+%% %Afisare F si J
+fprintf('Functia care descrie sistemul neliniar este:\n')
+disp(F(x))
+fprintf('Jacobianul functiei F este:\n')
+disp(J)
+%% % Rezolvarea sistemului neliniar prin metoda Newton
+x0 = [1 1]; %Alegem valori initiale din vecinatatea punctului de intersectie,
+%de exemplu (x,y) = (1,1).
+eps = 10^(-6);
+%Calcularea solutiei aproximative prin apelarea procedurii Newton.m
+[xaprox, N] = Newton(@F, @Jacobian,x0,eps);
+fprintf('Solutia sistemului neliniar este:\n')
+format long
+disp(xaprox)
+fprintf('Numarul necesar de iteratii pentru obtinerea solutiei cu eroarea %f este:\n',eps)
+disp(N)
+%Reprezentarea grafica a solutiei sistemului
+plot(xaprox(1), xaprox(2),'ok','MarkerSize',10,'MarkerFaceColor','r')
+%Reprezentarea grafica a valorii initiale
+plot(x0(1),x0(2),'ok','MarkerSize',10,'MarkerFaceColor','k')
+
+openfig('Fig1.fig');
+%% %Definirea functiei Jacobian calculat simbolic  
+function J = Jacobian(x)
+x1 = x(1);
+x2 = x(2);
+J = [ 2*x1, 2*x2;  2*x1,   -8];%Expresia pentru J se copiaza din Comand Window, 
+%sau se introduce manual
+end
+%% %Definirea functiei F care descrie sistemul neliniar  
+%F are ca parametru de intrare vectorul x cu doua componente si 
+%ca parametru de iesire vectorul F cu doua componente
+function F = F(x)
+F1 = x(1)^2 + x(2)^2 -4;% x(1) = x, x(2) = y
+F2 = x(1)^2-8*x(2);
+F=[F1;F2];
+end
+%% %Metoda Newton pentru rezolvarea sistemelor neliniare
+function [xaprox,N] =  Newton(F,J,x0,eps)
+k = 0;
+cond = 1;
+x = x0;
+while cond
+    k = k+1;
+    z = GaussPivTotala(J(x),-F(x)); %x = x(k-1), z = z(k);
+    x = x + z;
+    if norm(z,2)<eps
+        cond = 0;
+    end
+end
+xaprox = x; N = k;
+end    
+%% %Metoda Gauss cu pivotare totala pentru rezolvarea sistemelor liniare
+function [x]=GaussPivTotala(A,b)
+A=[A,b];% Matricea extinsa
+n=size(A,1);
+xindice=1:n;%Numerotare initiala necunoscute
+for k=1:n-1
+    %Calcul maxim
+    max=abs(A(k,k)); 
+    p = k; m = k; 
+    for i  = k:n
+        for j = k:n
+            if abs(A(i,j))> max
+                max=abs(A(i,j));
+                p = i; m = j;
+            end
+        end
+    end
+    if A(p,m) == 0 
+        display('Sist. incomp. sau comp. nedet.');
+        return
+    end
+    
+    if p~=k
+       A([p,k],:) = A([k,p],:);
+    end
+    if m~=k
+        A(:,[m,k]) = A(:,[k,m]);
+        xindice([m,k]) = xindice([k,m]);  %Schimbare numerotare  necunoscute
+    end
+    for l=k+1:n
+        A(l,:) = A(l,:)-A(l,k)/A(k,k)*A(k,:);
+    end
+end
+if A(n,n) == 0
+   display('Sist. incomp. sau comp. nedet.')
+   return
+end
+xschimbat=SubsDesc(A(1:n,1:n),A(:,n+1)); 
+for i = 1:n
+    x(xindice(i)) = xschimbat(i); %Revenire numerotare initiala
+end
+end
+%% %Metoda substitutiei descendente pentru rezolvarea sistemelor de ecuatii inferior triunghiulare
+function [x]=SubsDesc(A,b)
+n=length(b);
+x(n)=b(n)/A(n,n);
+k=n-1;
+while k>0
+    sum=0;
+    for j=k+1:n
+        sum=sum+A(k,j)*x(j);
+    end
+    x(k)=1/A(k,k)*(b(k)-sum);
+    k=k-1;
+end
+end
+
+end
+
+
+##### SOURCE END #####
+--></body></html>

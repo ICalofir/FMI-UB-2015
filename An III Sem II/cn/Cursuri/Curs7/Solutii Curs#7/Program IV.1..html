@@ -1,0 +1,184 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Program_IV_1</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-04-15"><meta name="DC.source" content="Program_IV_1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">Metoda Newton cu diferente divizate</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> Program_IV_1
+</pre><pre class="codeinput">f=inline(<span class="string">'exp(2*x)'</span>,<span class="string">'x'</span>);
+x0=-1; xf=1; N=2;
+X=linspace(x0,xf,(N+1)); <span class="comment">%Nodurile de interpolare echidistante</span>
+Y=f(X); <span class="comment">%Valorile lui f in nodurile de interpolare</span>
+x=linspace(x0,xf,100);<span class="comment">% Diviziunea in baza careia se construiesc graficele</span>
+<span class="comment">%Vectorul PN reprezinta valorile polinomului Lagrange, construit conform</span>
+<span class="comment">%meodei Newton DD, in fiecare nod al discretizarii intervalului [-1,1] cu</span>
+<span class="comment">%100 de noduri</span>
+<span class="keyword">for</span> ind=1:length(x)
+   PN(ind)=MetNDD(X,Y,x(ind));
+<span class="keyword">end</span>
+figure(1)
+hold <span class="string">on</span>
+plot(x,PN,<span class="string">'k'</span>,<span class="string">'Linewidth'</span>,3);<span class="comment">%Reprezentarea grafica a polinomului Lagrange</span>
+<span class="comment">%Pn calculat prin metoda Newton cu DD</span>
+xlabel(<span class="string">'x'</span>)
+ylabel(<span class="string">'y'</span>)
+grid <span class="string">on</span>
+plot(x,f(x),<span class="string">'--r'</span>,<span class="string">'Linewidth'</span>,2);
+plot(X,f(X),<span class="string">'o'</span>,<span class="string">'MarkerFaceColor'</span>,<span class="string">'g'</span>,<span class="string">'MarkerSize'</span>,10)
+<span class="comment">%Polinomul Lagrange Pn interpoleaza setul de date (Xi,f(Xi)), i.e.</span>
+<span class="comment">%graficul functiei Pn trece prin punctele de interpolare (Xi,f(Xi).</span>
+<span class="comment">%Mai mult, polinomul Pn aproximeaza functia f(x)</span>
+
+hold <span class="string">off</span>
+figure(2)
+plot(x,f(x)-PN,<span class="string">'k'</span>,<span class="string">'Linewidth'</span>,3)<span class="comment">%reprezentarea erorii</span>
+title(<span class="string">'Eroarea interpolarii'</span>)
+xlabel(<span class="string">'x'</span>)
+ylabel(<span class="string">'f(x)-Pn(x)'</span>)
+grid <span class="string">on</span>
+
+openfig(<span class="string">'Fig1.fig'</span>);
+</pre><img vspace="5" hspace="5" src="Program_IV_1_01.png" alt=""> <img vspace="5" hspace="5" src="Program_IV_1_02.png" alt=""> <img vspace="5" hspace="5" src="Program_IV_1_03.png" alt=""> <h2>Metoda Newton cu diferente divizate<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> y = MetNDD(X,Y,x)
+n = length(X)- 1; <span class="comment">%Gradul polinomului Pn</span>
+<span class="keyword">for</span> i = 1:n+1
+    Q(i,1) = Y(i);
+<span class="keyword">end</span>
+<span class="keyword">for</span> i = 2:n+1
+    <span class="keyword">for</span> j=2:i
+        Q(i,j) =(Q(i,j-1)-Q(i-1,j-1))/(X(i) - X(i-j+1));
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+Pn = Q(1,1);
+<span class="keyword">for</span> k = 2:n+1
+    p = 1;
+    <span class="keyword">for</span> j = 1:k-1
+        p = p * (x-X(j));
+    <span class="keyword">end</span>
+    Pn = Pn + Q(k,k) * p;
+<span class="keyword">end</span>
+y=Pn;
+<span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function Program_IV_1
+f=inline('exp(2*x)','x');
+x0=-1; xf=1; N=2;
+X=linspace(x0,xf,(N+1)); %Nodurile de interpolare echidistante
+Y=f(X); %Valorile lui f in nodurile de interpolare 
+x=linspace(x0,xf,100);% Diviziunea in baza careia se construiesc graficele
+%Vectorul PN reprezinta valorile polinomului Lagrange, construit conform
+%meodei Newton DD, in fiecare nod al discretizarii intervalului [-1,1] cu
+%100 de noduri
+for ind=1:length(x)
+   PN(ind)=MetNDD(X,Y,x(ind));
+end
+figure(1)
+hold on
+plot(x,PN,'k','Linewidth',3);%Reprezentarea grafica a polinomului Lagrange 
+%Pn calculat prin metoda Newton cu DD
+xlabel('x')
+ylabel('y')
+grid on
+plot(x,f(x),'REPLACE_WITH_DASH_DASHr','Linewidth',2);
+plot(X,f(X),'o','MarkerFaceColor','g','MarkerSize',10)
+%Polinomul Lagrange Pn interpoleaza setul de date (Xi,f(Xi)), i.e. 
+%graficul functiei Pn trece prin punctele de interpolare (Xi,f(Xi).
+%Mai mult, polinomul Pn aproximeaza functia f(x)
+
+hold off
+figure(2)
+plot(x,f(x)-PN,'k','Linewidth',3)%reprezentarea erorii
+title('Eroarea interpolarii')
+xlabel('x')
+ylabel('f(x)-Pn(x)')
+grid on 
+
+openfig('Fig1.fig');
+%% Metoda Newton cu diferente divizate
+function y = MetNDD(X,Y,x)
+n = length(X)- 1; %Gradul polinomului Pn
+for i = 1:n+1
+    Q(i,1) = Y(i);
+end
+for i = 2:n+1
+    for j=2:i
+        Q(i,j) =(Q(i,j-1)-Q(i-1,j-1))/(X(i) - X(i-j+1));
+    end
+end
+Pn = Q(1,1);
+for k = 2:n+1
+    p = 1;
+    for j = 1:k-1
+        p = p * (x-X(j));
+    end
+    Pn = Pn + Q(k,k) * p;
+end
+y=Pn;
+end
+
+end
+##### SOURCE END #####
+--></body></html>
