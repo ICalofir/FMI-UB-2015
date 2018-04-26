@@ -46,3 +46,12 @@
 * Sisteme de gestiune a bazelor de date
 * Tehnici de simulare
 * Ecuatii diferentiale si derivate partiale
+
+**An III, sem. II:**
+
+* Invatare automata si arte vizuale
+* Criptografie si securitate
+* Tehnici de optimizare
+* Calcul numeric
+* Tehnici de compilare
+* Ingineria programarii
