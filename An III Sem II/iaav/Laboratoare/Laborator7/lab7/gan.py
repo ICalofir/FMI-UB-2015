@@ -138,9 +138,9 @@ with tf.name_scope('loss'):
 
   adv_loss = true_loss + generated_loss
 
-  l = 10
-  g_loss = generated_loss
-  d_loss = adv_loss + l * d_regularizer
+  l_reg = 10
+  g_loss = adv_loss
+  d_loss = adv_loss + l_reg * d_regularizer
 
 with tf.name_scope('optimizer'):
   """
