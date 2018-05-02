@@ -130,17 +130,21 @@ with tf.name_scope('loss'):
                              labels=tf.ones_like(d_true),
                              name='true_sigmoid'),
                            name='true_loss')
-  generated_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(
+  generated_loss_d = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(
                              logits=d_generated,
                              labels=tf.zeros_like(d_generated),
                              name='generated_sigmoid'),
                            name='generated_loss')
 
-  adv_loss = true_loss + generated_loss
+  generated_loss_g = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(
+                             logits=d_generated,
+                             labels=tf.ones_like(d_generated),
+                             name='generated_sigmoid'),
+                           name='generated_loss')
 
   l_reg = 10
-  g_loss = adv_loss
-  d_loss = adv_loss + l_reg * d_regularizer
+  g_loss = generated_loss_g
+  d_loss = true_loss + generated_loss_d + l_reg * d_regularizer
 
 with tf.name_scope('optimizer'):
   """
