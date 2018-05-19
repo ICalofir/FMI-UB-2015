@@ -1,0 +1,185 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Program_V_1</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-04-23"><meta name="DC.source" content="Program_V_1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">%Exercitiu V.1. b)</a></li><li><a href="#2">%Exercitiu V.1. c)</a></li><li><a href="#3">%Exercitiu V.1. d)</a></li></ul></div><h2>%Exercitiu V.1. b)<a name="1"></a></h2><pre class="codeinput">clear <span class="string">all</span>
+f=inline(<span class="string">'exp(2*x)'</span>,<span class="string">'x'</span>);
+fp = inline(<span class="string">'2*exp(2*x)'</span>,<span class="string">'x'</span>);
+x0=-1; xf=1; N=2;
+X=linspace(x0,xf,(N+1)); <span class="comment">%Nodurile de interpolare</span>
+Y=f(X); <span class="comment">%Valorile lui f in nodurile de interpolare</span>
+x=linspace(x0,xf,100);<span class="comment">% Diviziunea in baza careia se construiesc graficele</span>
+<span class="comment">%Vectorul S reprezinta valorile functiei de interpolare cubica, S, in fiecare nod al discretizarii intervalului [-1,1] cu</span>
+<span class="comment">%100 de noduri</span>
+fpa = fp(X(1)); <span class="comment">%Se impune derivata in capetele intervalului [a,b]</span>
+fpb = fp(X(N+1));
+
+<span class="comment">%Procedura SplineC are ultimul parametru un scalar</span>
+<span class="keyword">for</span> i = 1:length(x)
+    S(i) = SplineC(X,Y,fpa,fpb,x(i));
+<span class="keyword">end</span>
+</pre><h2>%Exercitiu V.1. c)<a name="2"></a></h2><pre class="codeinput">figure(1)
+hold <span class="string">on</span>
+plot(x,S,<span class="string">'k'</span>,<span class="string">'Linewidth'</span>,3);<span class="comment">%Reprezentarea grafica a functiei S</span>
+xlabel(<span class="string">'x'</span>)
+ylabel(<span class="string">'y'</span>)
+grid <span class="string">on</span>
+plot(x,f(x),<span class="string">'--r'</span>,<span class="string">'Linewidth'</span>,3);
+plot(X,f(X),<span class="string">'o'</span>,<span class="string">'MarkerFaceColor'</span>,<span class="string">'g'</span>,<span class="string">'MarkerSize'</span>,10)
+legend(<span class="string">'S(x) - spline cubica'</span>,<span class="string">'f(x)=e^{2x}'</span>,<span class="string">'noduri de interpolare'</span>)
+</pre><img vspace="5" hspace="5" src="Program_V_1_01.png" alt=""> <h2>%Exercitiu V.1. d)<a name="3"></a></h2><pre class="codeinput">Sp = diff(S)./diff(x);
+<span class="comment">%diff calculeaza diferente intre doua elemente consecutive</span>
+<span class="comment">%daca x = [x1 x2 ... xn], atunci diff(x) = [x2-x1 x3-x2 ... xn-xn-1]</span>
+<span class="comment">%dimensiunea vectorului diff(x) este n-1</span>
+
+figure(2)
+plot(x(1:length(x)-1),Sp,<span class="string">'k'</span>,<span class="string">'Linewidth'</span>,3)
+df = diff(f(x))./diff(x); <span class="comment">%Derivata functiei f calculata numeric cu functia diff</span>
+hold <span class="string">on</span>
+plot(x(1:length(x)-1),df,<span class="string">'--r'</span>,<span class="string">'Linewidth'</span>,3)
+grid <span class="string">on</span>
+legend(<span class="string">'derivata funciei S'</span>,<span class="string">'derivata functiei f'</span>)
+xlabel(<span class="string">'x'</span>)
+ylabel(<span class="string">'y'</span>)
+
+<span class="comment">% Derivata de ordinul II a functiei S calculata numeric</span>
+Ss = diff(Sp)./diff(x(1:length(x)-1));
+hold <span class="string">on</span>
+
+figure(3)
+plot(x(1:length(x)-2), Ss,<span class="string">'k'</span>,<span class="string">'Linewidth'</span>,3)<span class="comment">%Derivata de ordinul II a functiei f calculata</span>
+<span class="comment">%numeric</span>
+d2f = diff(df)./diff(x(1:length(x)-1));
+hold <span class="string">on</span>
+plot(x(1:length(x)-2), d2f,<span class="string">'--r'</span>,<span class="string">'Linewidth'</span>,3)
+grid <span class="string">on</span>
+legend(<span class="string">'derivata de ord. II a functiei S'</span>,<span class="string">'derivata de ord. II a functiei f'</span>)
+xlabel(<span class="string">'x'</span>)
+ylabel(<span class="string">'y'</span>)
+</pre><img vspace="5" hspace="5" src="Program_V_1_02.png" alt=""> <img vspace="5" hspace="5" src="Program_V_1_03.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% %Exercitiu V.1. b)
+clear all
+f=inline('exp(2*x)','x');
+fp = inline('2*exp(2*x)','x');
+x0=-1; xf=1; N=2;
+X=linspace(x0,xf,(N+1)); %Nodurile de interpolare 
+Y=f(X); %Valorile lui f in nodurile de interpolare 
+x=linspace(x0,xf,100);% Diviziunea in baza careia se construiesc graficele
+%Vectorul S reprezinta valorile functiei de interpolare cubica, S, in fiecare nod al discretizarii intervalului [-1,1] cu
+%100 de noduri
+fpa = fp(X(1)); %Se impune derivata in capetele intervalului [a,b]
+fpb = fp(X(N+1));
+
+%Procedura SplineC are ultimul parametru un scalar
+for i = 1:length(x)
+    S(i) = SplineC(X,Y,fpa,fpb,x(i));
+end
+
+%% %Exercitiu V.1. c)
+figure(1)
+hold on
+plot(x,S,'k','Linewidth',3);%Reprezentarea grafica a functiei S
+xlabel('x')
+ylabel('y')
+grid on
+plot(x,f(x),'REPLACE_WITH_DASH_DASHr','Linewidth',3);
+plot(X,f(X),'o','MarkerFaceColor','g','MarkerSize',10)
+legend('S(x) - spline cubica','f(x)=e^{2x}','noduri de interpolare')
+
+%% %Exercitiu V.1. d)
+Sp = diff(S)./diff(x);
+%diff calculeaza diferente intre doua elemente consecutive
+%daca x = [x1 x2 ... xn], atunci diff(x) = [x2-x1 x3-x2 ... xn-xn-1]
+%dimensiunea vectorului diff(x) este n-1
+
+figure(2)
+plot(x(1:length(x)-1),Sp,'k','Linewidth',3) 
+df = diff(f(x))./diff(x); %Derivata functiei f calculata numeric cu functia diff
+hold on
+plot(x(1:length(x)-1),df,'REPLACE_WITH_DASH_DASHr','Linewidth',3)
+grid on
+legend('derivata funciei S','derivata functiei f')
+xlabel('x')
+ylabel('y')
+
+% Derivata de ordinul II a functiei S calculata numeric
+Ss = diff(Sp)./diff(x(1:length(x)-1));
+hold on 
+
+figure(3)
+plot(x(1:length(x)-2), Ss,'k','Linewidth',3)%Derivata de ordinul II a functiei f calculata
+%numeric
+d2f = diff(df)./diff(x(1:length(x)-1));
+hold on
+plot(x(1:length(x)-2), d2f,'REPLACE_WITH_DASH_DASHr','Linewidth',3)
+grid on
+legend('derivata de ord. II a functiei S','derivata de ord. II a functiei f')
+xlabel('x')
+ylabel('y')
+##### SOURCE END #####
+--></body></html>
